@@ -6,5 +6,5 @@
  * @Description: 导出链配置
  */
 
-export * from "./chains";
-export * from "./tokens";
+export * from './chains'
+export * from './tokens'
