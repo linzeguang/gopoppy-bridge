@@ -1,13 +1,13 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 14:26:07
- * @LastEditTime: 2022-09-01 14:32:19
+ * @LastEditTime: 2022-09-01 17:16:41
  * @LastEditors: linzeguang
  * @Description:
  */
 import { CHAIN } from './chains'
 
-interface Token {
+export interface Token {
   type: 'main' | 'token'
   address: string
   name: string
@@ -15,7 +15,7 @@ interface Token {
   icon: string
 }
 
-export const TOKENS: Record<CHAIN, { [key: string]: Token }> = {
+export const TOKENS: Record<CHAIN, Record<string, Token>> = {
   [CHAIN.BSC]: {
     USDT: {
       type: 'token',

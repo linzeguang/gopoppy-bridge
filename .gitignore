@@ -12,8 +12,8 @@
 /build
 
 # lock
-# *.lock
-# package-lock.json
+*.lock
+package-lock.json
 
 # misc
 .DS_Store

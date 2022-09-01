@@ -1,19 +1,23 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 14:14:15
- * @LastEditTime: 2022-09-01 14:43:31
+ * @LastEditTime: 2022-09-01 17:34:26
  * @LastEditors: linzeguang
  * @Description:
  */
 
 import { AddEthereumChainParameter } from '@web3-react/types'
 
+export interface Chain extends AddEthereumChainParameter {
+  chainId: CHAIN
+}
+
 export enum CHAIN {
   BSC = 56,
   TTS = 17451,
 }
 
-export const CHAINS: Record<CHAIN, AddEthereumChainParameter> = {
+export const CHAINS: Record<CHAIN, Chain> = {
   [CHAIN.BSC]: {
     chainId: CHAIN.BSC,
     chainName: 'BNB Smart Chain',
@@ -41,3 +45,5 @@ export const CHAINS: Record<CHAIN, AddEthereumChainParameter> = {
     blockExplorerUrls: ['https://block.thethirdspacechain.com/'],
   },
 }
+
+export const RPCURLS = Object.values(CHAINS).map((info) => info.rpcUrls)

@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 13:39:44
- * @LastEditTime: 2022-09-01 13:42:27
+ * @LastEditTime: 2022-09-01 16:13:10
  * @LastEditors: linzeguang
  * @Description: 程序入口
  */
@@ -9,14 +9,15 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import App from './App'
+import Providers from './Providers'
 import reportWebVitals from './reportWebVitals'
-
-import './index.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <App />
+    <Providers>
+      <App />
+    </Providers>
   </React.StrictMode>,
 )
 
