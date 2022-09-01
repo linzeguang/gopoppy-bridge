@@ -1,12 +1,13 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 13:39:44
- * @LastEditTime: 2022-09-02 00:26:15
+ * @LastEditTime: 2022-09-02 01:23:21
  * @LastEditors: linzeguang
  * @Description: 页面入口
  */
-import React, { useContext } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
+import { useComputed } from 'foca'
 
 import { useWeb3React } from '@web3-react/core'
 
@@ -14,11 +15,11 @@ import { CHAINS } from './constant/chain'
 import { connections } from './constant'
 import { PAIRS } from './constant'
 import { useAuth } from './hooks'
-import { StoreContext } from './widgets'
+import { BasicModel } from './models'
 
 const App: React.FC = () => {
   const { chainId } = useWeb3React()
-  const { fromChain, toChain, handlePair } = useContext(StoreContext)
+  const { fromChain, toChain } = useComputed(BasicModel.bridgeChain)
 
   const { login, logout, switchChain } = useAuth()
 
@@ -50,7 +51,7 @@ const App: React.FC = () => {
         {PAIRS.map(([from, to]) => (
           <button
             key={[from.chainId, to.chainId].join('-')}
-            onClick={() => handlePair([from, to])}
+            onClick={() => BasicModel.updateBridgePair([from, to])}
           >
             {[from.label, to.label].join('-')}
           </button>

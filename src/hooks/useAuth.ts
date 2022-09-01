@@ -1,13 +1,14 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 18:43:30
- * @LastEditTime: 2022-09-02 00:05:47
+ * @LastEditTime: 2022-09-02 01:21:39
  * @LastEditors: linzeguang
  * @Description:
  */
-import { useCallback, useContext } from 'react'
+import { useCallback } from 'react'
 import toast from 'react-hot-toast'
 import { useStorageState } from 'react-storage-hooks'
+import { useComputed } from 'foca'
 
 import { useWeb3React } from '@web3-react/core'
 import { MetaMask } from '@web3-react/metamask'
@@ -15,7 +16,7 @@ import { Connector } from '@web3-react/types'
 import { WalletConnect } from '@web3-react/walletconnect'
 
 import { Chain, CONNECTOR, ConnectorInfo } from '../constant'
-import { StoreContext } from '../widgets'
+import { BasicModel } from '../models'
 
 interface ConnectError extends Error {
   code: number
@@ -30,7 +31,7 @@ export default function useAuth() {
     null,
   )
   const { connector, chainId, isActive } = useWeb3React()
-  const { fromChain } = useContext(StoreContext)
+  const { fromChain } = useComputed(BasicModel.bridgeChain)
   const { label, chainLogo, ...params } = fromChain
 
   const connect = useCallback(async (connector: Connector, chain: Chain) => {
