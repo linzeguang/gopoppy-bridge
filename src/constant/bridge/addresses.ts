@@ -1,11 +1,10 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-07-18 14:25:25
- * @LastEditTime: 2022-09-01 14:36:56
+ * @LastEditTime: 2022-09-02 00:12:32
  * @LastEditors: linzeguang
  * @Description: 地址配置
  */
-
 import { CHAIN } from '../chain'
 
 export const BRIDGEADDRESSES: Record<CHAIN, string> = {

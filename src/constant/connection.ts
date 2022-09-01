@@ -1,9 +1,9 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 15:23:05
- * @LastEditTime: 2022-09-01 19:22:44
+ * @LastEditTime: 2022-09-02 00:09:30
  * @LastEditors: linzeguang
- * @Description:
+ * @Description: 连接器配置
  */
 import { initializeConnector, Web3ReactHooks } from '@web3-react/core'
 import { MetaMask } from '@web3-react/metamask'
@@ -18,35 +18,41 @@ export interface Connection {
   type: CONNECTOR
 }
 
-export interface Wallet extends Connection {
+export interface ConnectorInfo extends Connection {
   name: string
   icon: string
 }
 
 export enum CONNECTOR {
-  METAMASK,
-  WALLETCONNECT,
+  INJECTED = 'Injected',
+  WALLETCONNECT = 'WalletConnect',
 }
 
 // Injected Connector
-export const [injectedConnector, injectedHooks] = initializeConnector<MetaMask>((actions) => new MetaMask({ actions }))
-
-// WalletConnect Connector
-export const [walletConnectConnector, walletConnectHooks] = initializeConnector<WalletConnect>(
+export const [injectedConnector, injectedHooks] = initializeConnector<MetaMask>(
   (actions) =>
-    new WalletConnect({
+    new MetaMask({
       actions,
-      options: {
-        rpc: RPCURLS,
-      },
     }),
 )
 
-export const wallets: Wallet[] = [
+// WalletConnect Connector
+export const [walletConnectConnector, walletConnectHooks] =
+  initializeConnector<WalletConnect>(
+    (actions) =>
+      new WalletConnect({
+        actions,
+        options: {
+          rpc: RPCURLS,
+        },
+      }),
+  )
+
+export const connections: ConnectorInfo[] = [
   {
     connector: injectedConnector,
     hooks: injectedHooks,
-    type: CONNECTOR.METAMASK,
+    type: CONNECTOR.INJECTED,
     name: 'TokenPocket',
     icon: './images/connection/TokenPocket.svg',
   },
@@ -59,4 +65,6 @@ export const wallets: Wallet[] = [
   },
 ]
 
-export const connectors: [Connector, Web3ReactHooks][] = wallets.map((info) => [info.connector, info.hooks])
+export const connectors: [Connector, Web3ReactHooks][] = connections.map(
+  (info) => [info.connector, info.hooks],
+)

@@ -1,11 +1,10 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 17:00:42
- * @LastEditTime: 2022-09-01 17:35:06
+ * @LastEditTime: 2022-09-02 00:12:29
  * @LastEditors: linzeguang
  * @Description:
  */
-
 import { CHAIN, Chain, CHAINS } from '../chain'
 
 export interface BridgeChain extends Chain {

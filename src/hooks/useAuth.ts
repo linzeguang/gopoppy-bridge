@@ -1,15 +1,20 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 18:43:30
- * @LastEditTime: 2022-09-01 19:24:26
+ * @LastEditTime: 2022-09-02 00:05:47
  * @LastEditors: linzeguang
  * @Description:
  */
 import { useCallback, useContext } from 'react'
+import toast from 'react-hot-toast'
+import { useStorageState } from 'react-storage-hooks'
 
 import { useWeb3React } from '@web3-react/core'
+import { MetaMask } from '@web3-react/metamask'
+import { Connector } from '@web3-react/types'
+import { WalletConnect } from '@web3-react/walletconnect'
 
-import { Chain, Wallet } from '../constant'
+import { Chain, CONNECTOR, ConnectorInfo } from '../constant'
 import { StoreContext } from '../widgets'
 
 interface ConnectError extends Error {
@@ -19,48 +24,73 @@ interface ConnectError extends Error {
 }
 
 export default function useAuth() {
-  const { connector, chainId } = useWeb3React()
+  const [, setSelectedConnector] = useStorageState<CONNECTOR | null>(
+    localStorage,
+    'selectedConnector',
+    null,
+  )
+  const { connector, chainId, isActive } = useWeb3React()
   const { fromChain } = useContext(StoreContext)
   const { label, chainLogo, ...params } = fromChain
 
-  const onError = useCallback((error: ConnectError, type: 'login' | 'toggle') => {
-    const errorMessage = type === 'login' ? 'Wallet connection error:' : 'Failed to switch network:'
-    console.warn(`${errorMessage} ${error.message}`)
+  const connect = useCallback(async (connector: Connector, chain: Chain) => {
+    try {
+      if (connector instanceof MetaMask) {
+        // MetaMask 钱包连接
+        await connector.activate(chain)
+      } else if (connector instanceof WalletConnect) {
+        // WalletConnect 钱包连接
+        await connector.activate(chain.chainId)
+      } else {
+        // 其他钱包
+        await connector.activate(chain)
+      }
+      return true
+    } catch (error) {
+      // 错误处理
+      const { message } = error as ConnectError
+      toast.error(message)
+      return false
+    }
   }, [])
 
-  const toggle = useCallback(
-    async (chain: Chain) => {
+  // 切换网络
+  const switchChain = useCallback(
+    (chain: Chain) => {
       // 避免重复点击
       if (chainId === chain.chainId) return
-      try {
-        await connector.activate(chain)
-      } catch (error) {
-        onError(error as ConnectError, 'toggle')
-      }
+
+      // 发起请求
+      connect(connector, chain)
     },
-    [chainId, connector, onError],
+    [chainId, connect, connector],
   )
 
+  // 连接钱包
   const login = useCallback(
-    async (wallet: Wallet) => {
-      // 避免重复点击
-      if (chainId === params.chainId) return
-      try {
-        await wallet.connector.activate(params)
-      } catch (error) {
-        onError(error as ConnectError, 'login')
+    async (connection: ConnectorInfo) => {
+      const { connector, type } = connection
+
+      // 发起请求
+      const connected = await connect(connector, params)
+      if (connected) {
+        setSelectedConnector(type)
+      } else {
+        !isActive && setSelectedConnector(null)
       }
     },
-    [chainId, onError, params],
+    [connect, isActive, params, setSelectedConnector],
   )
 
+  // 断开钱包
   const logout = useCallback(() => {
     if (connector.deactivate) {
       connector.deactivate()
     } else {
       connector.resetState()
     }
-  }, [connector])
+    setSelectedConnector(null)
+  }, [connector, setSelectedConnector])
 
-  return { login, logout, toggle }
+  return { login, logout, switchChain }
 }

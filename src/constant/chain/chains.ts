@@ -1,11 +1,10 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 14:14:15
- * @LastEditTime: 2022-09-01 17:34:26
+ * @LastEditTime: 2022-09-02 00:12:42
  * @LastEditors: linzeguang
  * @Description:
  */
-
 import { AddEthereumChainParameter } from '@web3-react/types'
 
 export interface Chain extends AddEthereumChainParameter {
