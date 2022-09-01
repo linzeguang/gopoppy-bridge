@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 13:39:44
- * @LastEditTime: 2022-09-02 01:23:21
+ * @LastEditTime: 2022-09-02 02:24:08
  * @LastEditors: linzeguang
  * @Description: 页面入口
  */
@@ -20,7 +20,6 @@ import { BasicModel } from './models'
 const App: React.FC = () => {
   const { chainId } = useWeb3React()
   const { fromChain, toChain } = useComputed(BasicModel.bridgeChain)
-
   const { login, logout, switchChain } = useAuth()
 
   return (

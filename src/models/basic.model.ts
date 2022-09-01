@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-07-18 14:42:03
- * @LastEditTime: 2022-09-02 01:18:56
+ * @LastEditTime: 2022-09-02 02:22:32
  * @LastEditors: linzeguang
  * @Description: 基建model
  */
@@ -29,7 +29,7 @@ export const BasicModel = defineModel('basic', {
       const { bridgePair } = this.state
       const [fromChain, toChain] = bridgePair
 
-      const fromTokens = TOKENS[fromChain.chainId]
+      const fromTokens = Object.values(TOKENS[fromChain.chainId])
 
       return {
         fromChain, // 主链
