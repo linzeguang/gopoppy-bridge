@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-07-18 15:38:20
- * @LastEditTime: 2022-09-02 12:01:52
+ * @LastEditTime: 2022-09-02 17:23:44
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -24,13 +24,13 @@ export const PingFangSCRegular = styled(Typography)`
   font-weight: 400;
 `
 
-export const SFProTypographyMedium = styled(Typography)`
-  font-family: SFProTypography-Medium, SFProTypography;
+export const SFProTextMedium = styled(Typography)`
+  font-family: SFProText-Medium, SFProText;
   font-weight: 500;
 `
 
-export const SFProTypographyRegular = styled(Typography)`
-  font-family: SFProTypography-Regular, SFProTypography;
+export const SFProTextRegular = styled(Typography)`
+  font-family: SFProText-Regular, SFProText;
   font-weight: 400;
 `
 

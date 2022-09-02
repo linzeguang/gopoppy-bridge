@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 13:49:47
- * @LastEditTime: 2022-09-02 16:10:33
+ * @LastEditTime: 2022-09-02 17:24:00
  * @LastEditors: linzeguang
  * @Description: 钱包连接modal
  */
@@ -16,8 +16,8 @@ import { useWeb3React } from '@web3-react/core'
 import {
   Button,
   PingFangSCSemibold,
-  SFProTypographyMedium,
-  SFProTypographyRegular,
+  SFProTextMedium,
+  SFProTextRegular,
 } from '../components'
 import {
   BRIDGECHAINS,
@@ -48,7 +48,7 @@ const WalletImage = styled.img`
 `
 
 const InfoMain = styled(Grid)`
-  ${SFProTypographyRegular} {
+  ${SFProTextRegular} {
     color: ${({ theme }) => theme.colors.grey};
   }
   ${WalletImage} {
@@ -111,9 +111,7 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
         render: () => (
           <FlexRow alignItems='center' gridGap='4px'>
             <WalletImage src={connectedConnection?.icon} />
-            <SFProTypographyMedium>
-              {connectedConnection?.name}
-            </SFProTypographyMedium>
+            <SFProTextMedium>{connectedConnection?.name}</SFProTextMedium>
           </FlexRow>
         ),
       },
@@ -122,9 +120,9 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
         render: () => (
           <FlexRow alignItems='center' gridGap='4px'>
             <WalletImage src={chainInfo?.chainLogo} />
-            <SFProTypographyMedium>
+            <SFProTextMedium>
               {chainInfo?.label}({chainInfo?.chainId})
-            </SFProTypographyMedium>
+            </SFProTextMedium>
           </FlexRow>
         ),
       },
@@ -165,11 +163,11 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
             alignItems='center'
             justifyContent='space-between'
           >
-            <SFProTypographyRegular>{info.label}：</SFProTypographyRegular>
+            <SFProTextRegular>{info.label}：</SFProTextRegular>
             {info.render ? (
               info.render()
             ) : (
-              <SFProTypographyMedium>{info.value}</SFProTypographyMedium>
+              <SFProTextMedium>{info.value}</SFProTextMedium>
             )}
           </FlexRow>
         ))}

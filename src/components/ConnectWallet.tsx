@@ -1,18 +1,16 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 13:09:12
- * @LastEditTime: 2022-09-02 15:48:09
+ * @LastEditTime: 2022-09-03 00:15:56
  * @LastEditors: linzeguang
  * @Description: 钱包连接
  */
-import React, { useContext, useMemo } from 'react'
-import { useStorageState } from 'react-storage-hooks'
+import React, { useContext } from 'react'
 import { encrypt } from 'zewide'
 
 import styled from '@emotion/styled'
 import { useWeb3React } from '@web3-react/core'
 
-import { connections, CONNECTOR } from '../constants'
 import { ConnectContext } from '../provider'
 import { Icon } from '../svgr'
 

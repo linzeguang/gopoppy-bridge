@@ -6,4 +6,4 @@
  * @Description: 导出logo svgr
  */
 
-export { ReactComponent as Bridge } from './bridge.svg';
+export { ReactComponent as Bridge } from './bridge.svg'
