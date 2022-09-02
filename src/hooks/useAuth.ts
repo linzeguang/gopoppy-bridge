@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 18:43:30
- * @LastEditTime: 2022-09-02 01:21:39
+ * @LastEditTime: 2022-09-02 16:11:18
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -15,7 +15,7 @@ import { MetaMask } from '@web3-react/metamask'
 import { Connector } from '@web3-react/types'
 import { WalletConnect } from '@web3-react/walletconnect'
 
-import { Chain, CONNECTOR, ConnectorInfo } from '../constant'
+import { Chain, CONNECTOR, ConnectorInfo } from '../constants'
 import { BasicModel } from '../models'
 
 interface ConnectError extends Error {
@@ -57,12 +57,13 @@ export default function useAuth() {
 
   // 切换网络
   const switchChain = useCallback(
-    (chain: Chain) => {
+    async (chain: Chain) => {
       // 避免重复点击
       if (chainId === chain.chainId) return
 
       // 发起请求
-      connect(connector, chain)
+      const status = await connect(connector, chain)
+      return status
     },
     [chainId, connect, connector],
   )
@@ -79,16 +80,17 @@ export default function useAuth() {
       } else {
         !isActive && setSelectedConnector(null)
       }
+      return connected
     },
     [connect, isActive, params, setSelectedConnector],
   )
 
   // 断开钱包
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
     if (connector.deactivate) {
-      connector.deactivate()
+      await connector.deactivate()
     } else {
-      connector.resetState()
+      await connector.resetState()
     }
     setSelectedConnector(null)
   }, [connector, setSelectedConnector])

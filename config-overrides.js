@@ -1,68 +1,76 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 13:58:48
- * @LastEditTime: 2022-09-02 01:07:52
+ * @LastEditTime: 2022-09-02 15:14:38
  * @LastEditors: linzeguang
  * @Description: 打包配置
  */
 
+const {
+  override,
+  addWebpackAlias,
+  addWebpackPlugin,
+  addWebpackResolve,
+  useBabelRc,
+} = require('customize-cra')
 const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const path = require('path')
 
-const plugins =
-  process.env.NODE_ENV === 'production'
-    ? [
-        // 添加打包变量，用于foca更新
-        new webpack.DefinePlugin({ __BUILD_TIME__: Date.now() }),
-        // 打包进度条
-        new ProgressBarPlugin(),
-        new UglifyJsPlugin({
-          // 开启打包缓存
-          cache: true,
-          // 开启多线程打包
-          parallel: true,
-          uglifyOptions: {
-            // 删除警告
-            warnings: false,
-            // 压缩
-            compress: {
-              // 移除console
-              drop_console: true,
-              // 移除debugger
-              drop_debugger: true,
-            },
+module.exports = override(
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useBabelRc(),
+  // 打包进度条
+  addWebpackPlugin(new ProgressBarPlugin()),
+  // alias
+  addWebpackAlias({
+    // 加载模块的时候，可以使用“@”符号来进行简写啦~
+    '@': path.resolve(__dirname, './src/'),
+  }),
+  // 用于foca更新
+  addWebpackPlugin(new webpack.DefinePlugin({ __BUILD_TIME__: Date.now() })),
+  // 注意是production环境启动该plugin
+  process.env.NODE_ENV === 'production' &&
+    addWebpackPlugin(
+      new UglifyJsPlugin({
+        // 开启打包缓存
+        cache: true,
+        // 开启多线程打包
+        parallel: true,
+        uglifyOptions: {
+          // 删除警告
+          warnings: false,
+          // 压缩
+          compress: {
+            // 移除console
+            drop_console: true,
+            // 移除debugger
+            drop_debugger: true,
           },
-        }),
-      ]
-    : [
-        // 更新开发变量，用于foca更新
-        new webpack.DefinePlugin({ __BUILD_TIME__: Date.now() }),
-      ]
-
-module.exports = function override(config) {
-  // fix web3 start
-  const fallback = config.resolve.fallback || {}
-  Object.assign(fallback, {
-    crypto: require.resolve('crypto-browserify'),
-    stream: require.resolve('stream-browserify'),
-    assert: require.resolve('assert'),
-    http: require.resolve('stream-http'),
-    https: require.resolve('https-browserify'),
-    os: require.resolve('os-browserify'),
-    url: require.resolve('url'),
-  })
-  config.resolve.fallback = fallback
-  config.plugins = (config.plugins || []).concat([
+        },
+      }),
+    ),
+  // fix web3
+  (config) => {
+    config.ignoreWarnings = [/Failed to parse source map/]
+    return config
+  },
+  addWebpackResolve({
+    fallback: {
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      assert: require.resolve('assert'),
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
+      os: require.resolve('os-browserify'),
+      url: require.resolve('url'),
+    },
+  }),
+  addWebpackPlugin(
     new webpack.ProvidePlugin({
-      process: 'process/browser',
+      process: 'process/browser.js',
       Buffer: ['buffer', 'Buffer'],
     }),
-  ])
-  config.ignoreWarnings = [/Failed to parse source map/]
-  // fix web3 end
-
-  config.plugins = config.plugins.concat(plugins)
-
-  return config
-}
+  ),
+)

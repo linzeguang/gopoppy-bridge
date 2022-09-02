@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 14:26:07
- * @LastEditTime: 2022-09-01 17:16:41
+ * @LastEditTime: 2022-09-02 03:47:34
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -13,6 +13,7 @@ export interface Token {
   name: string
   symbol: string
   icon: string
+  fee?: number
 }
 
 export const TOKENS: Record<CHAIN, Record<string, Token>> = {
@@ -53,6 +54,7 @@ export const TOKENS: Record<CHAIN, Record<string, Token>> = {
       symbol: 'USDT',
       address: '0xA1b3417CDa3b63a4293599347572ecDf940EC36C',
       icon: './images/token/USDT.png',
+      fee: 1,
     },
     TTST: {
       type: 'token',

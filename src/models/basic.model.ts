@@ -1,13 +1,13 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-07-18 14:42:03
- * @LastEditTime: 2022-09-02 02:22:32
+ * @LastEditTime: 2022-09-02 13:44:26
  * @LastEditors: linzeguang
  * @Description: 基建model
  */
 import { defineModel } from 'foca'
 
-import { BRIDGECHAINS, CHAIN, Pair, TOKENS } from '../constant'
+import { BRIDGECHAINS, CHAIN, Pair, TOKENS } from '../constants'
 
 export interface BasicState {
   bridgePair: Pair

@@ -11,6 +11,9 @@
 # production
 /build
 
+#yalc
+.yalc
+
 # lock
 *.lock
 package-lock.json

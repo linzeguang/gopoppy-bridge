@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 13:39:44
- * @LastEditTime: 2022-09-01 23:47:48
+ * @LastEditTime: 2022-09-02 13:48:35
  * @LastEditors: linzeguang
  * @Description: 程序入口
  */
@@ -11,12 +11,14 @@ import ReactDOM from 'react-dom/client'
 import { css, Global } from '@emotion/react'
 
 import App from './App'
-import Providers from './Providers'
+import { Providers } from './provider'
 import reportWebVitals from './reportWebVitals'
+
+import './models/store'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
-  <React.StrictMode>
+  <React.Fragment>
     <Global
       styles={css`
         .walletconnect-modal__footer {
@@ -28,7 +30,7 @@ root.render(
     <Providers>
       <App />
     </Providers>
-  </React.StrictMode>,
+  </React.Fragment>,
 )
 
 // If you want to start measuring performance in your app, pass a function
