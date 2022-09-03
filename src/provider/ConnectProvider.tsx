@@ -1,13 +1,15 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 13:49:47
- * @LastEditTime: 2022-09-03 15:00:21
+ * @LastEditTime: 2022-09-03 21:18:11
  * @LastEditors: linzeguang
  * @Description: 钱包连接modal
  */
 import React, { createContext, PropsWithChildren, useMemo } from 'react'
-import { encrypt, FlexRow, Grid, Handler, Modal, useLocalStorage, useModal } from 'zewide'
+import { useTranslation } from 'react-i18next'
+import { encrypt, FlexRow, Grid, Handler, useLocalStorage, useModal } from 'zewide'
 
+import { Modal } from '@/components'
 import { css, Global } from '@emotion/react'
 import styled from '@emotion/styled'
 import { useWeb3React } from '@web3-react/core'
@@ -70,6 +72,7 @@ export const ConnectContext = createContext<ConnectState>({
 })
 
 const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
+  const { t } = useTranslation()
   const { login, logout } = useAuth()
   const { account, chainId } = useWeb3React()
   const [selectedConnector] = useLocalStorage<CONNECTOR | null>('selectedConnector', null)
@@ -122,7 +125,7 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
   )
 
   const [onPresentConnect, onDismissConnect, connectModal] = useModal(
-    <Modal title='Connect Wallet' width='calc(100vw - 30px)'>
+    <Modal title={t('connect_wallet')} width='calc(100vw - 40px)'>
       <Grid gridGap='15px'>
         {connections.map((connection) => (
           <ConnectButton
@@ -142,7 +145,7 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
   )
 
   const [onPresentInfo, onDismissInfo, infoModal] = useModal(
-    <Modal title='Wallet Info' width='calc(100vw - 30px)'>
+    <Modal title={t('wallet_info')} width='calc(100vw - 40px)'>
       <InfoMain gridGap='10px'>
         {connectedInfo.map((info) => (
           <FlexRow key={info.label} alignItems='center' justifyContent='space-between'>
@@ -151,7 +154,7 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
           </FlexRow>
         ))}
         <Button onClick={() => logout().then(() => onDismissInfo())}>
-          <PingFangSCSemibold>Disconnect</PingFangSCSemibold>
+          <PingFangSCSemibold>{t('disconnect')}</PingFangSCSemibold>
         </Button>
       </InfoMain>
     </Modal>,

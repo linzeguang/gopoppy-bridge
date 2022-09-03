@@ -107,7 +107,7 @@ body {
   font-size: 16px;
   font-family: sans-serif;
   color: #fff;
-  background: linear-gradient(to bottom, #303336 0%, #303336 80%, #000000 100%);
+  background: linear-gradient(to bottom, #303336 0%, #303336 60%, #000000 100%);
 }
 menu,
 ol,

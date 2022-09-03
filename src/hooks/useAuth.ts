@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 18:43:30
- * @LastEditTime: 2022-09-03 14:57:50
+ * @LastEditTime: 2022-09-03 21:40:10
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -46,6 +46,11 @@ export default function useAuth() {
       return true
     } catch (error) {
       // 错误处理
+      if (error === 'rejected') {
+        toast.error('rejected')
+        return false
+      }
+
       const { message } = error as ConnectError
       toast.error(message)
       return false

@@ -1,11 +1,11 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 14:41:12
- * @LastEditTime: 2022-09-03 16:10:24
+ * @LastEditTime: 2022-09-03 20:50:16
  * @LastEditors: linzeguang
  * @Description:
  */
-import { FlexRow, Grid } from 'zewide'
+import { FlexRow } from 'zewide'
 
 import { Icon } from '@/svgr'
 import styled from '@emotion/styled'
@@ -13,12 +13,9 @@ import styled from '@emotion/styled'
 import { Button } from '../Common'
 
 export const BridgeButton = styled(Button)`
+  width: 100%;
+  height: 40px;
   justify-content: space-between;
-`
-
-export const Choose = styled(Icon.ChooseFilled)`
-  width: 22px;
-  height: 22px;
 `
 
 export const ArrowRight = styled(Icon.ArrowDownFilled)`
@@ -26,18 +23,6 @@ export const ArrowRight = styled(Icon.ArrowDownFilled)`
   height: 12px;
   fill: #fff;
   transition: all ${({ theme }) => theme.duration}s;
-`
-
-export const PairRow = styled(FlexRow)`
-  position: relative;
-  align-items: center;
-  grid-gap: 8px;
-  cursor: pointer;
-
-  ${Choose} {
-    position: absolute;
-    right: 0;
-  }
 `
 
 export const ChainInfo = styled(FlexRow)`
@@ -48,11 +33,4 @@ export const ChainInfo = styled(FlexRow)`
 export const ChainLogo = styled.img`
   width: 20px;
   height: 20px;
-`
-
-export const PairWrapper = styled(Grid)`
-  grid-gap: 15px;
-  ${PairRow} {
-    padding: 10px 0;
-  }
 `

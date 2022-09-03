@@ -24,12 +24,14 @@
     "bignumber.js": "^9.1.0",
     "foca": "^1.1.0",
     "framer-motion": "^7.2.1",
+    "i18next": "^21.9.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.3.0",
+    "react-i18next": "^11.18.5",
     "react-scripts": "5.0.1",
     "web3-utils": "^1.7.5",
-    "zewide": "^0.0.34"
+    "zewide": "^0.0.37"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.10.2",

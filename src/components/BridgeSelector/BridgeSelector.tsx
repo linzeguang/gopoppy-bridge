@@ -1,39 +1,31 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 14:38:46
- * @LastEditTime: 2022-09-03 16:57:42
+ * @LastEditTime: 2022-09-03 21:37:24
  * @LastEditors: linzeguang
  * @Description: 跨链桥选择器
  */
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useModel } from 'foca'
-import { Modal, useModal } from 'zewide'
+import { FlexRow, Handler } from 'zewide'
 
-import { BridgeChain, PAIRS } from '@/constants'
+import { Pair, PAIRS } from '@/constants'
 import { useAuth } from '@/hooks'
 import { BasicModel } from '@/models'
 import { Icon } from '@/svgr'
+import { useWeb3React } from '@web3-react/core'
 
-import { PingFangSCSemibold } from '../Common'
+import { PingFangSCSemibold, Selector } from '../Common'
 
-import {
-  ArrowRight,
-  BridgeButton,
-  ChainInfo,
-  ChainLogo,
-  Choose,
-  PairRow,
-  PairWrapper,
-} from './styled'
+import { ArrowRight, BridgeButton, ChainInfo, ChainLogo } from './styled'
 
 const BridgePair: React.FC<{
-  fromChain: BridgeChain
-  toChain: BridgeChain
-  selected?: boolean
-  onClick?: () => void
-}> = ({ fromChain, toChain, selected, onClick }) => {
+  pair: Pair
+}> = ({ pair }) => {
+  const [fromChain, toChain] = pair
   return (
-    <PairRow onClick={() => onClick && onClick()}>
+    <FlexRow gridGap='8px'>
       <ChainInfo>
         <ChainLogo src={fromChain.chainLogo} />
         <PingFangSCSemibold>{fromChain.label}</PingFangSCSemibold>
@@ -43,52 +35,70 @@ const BridgePair: React.FC<{
         <ChainLogo src={toChain.chainLogo} />
         <PingFangSCSemibold>{toChain.label}</PingFangSCSemibold>
       </ChainInfo>
-      {selected && <Choose />}
-    </PairRow>
+    </FlexRow>
   )
 }
 
-const BridgeSelector: React.FC = () => {
-  const { switchChain } = useAuth()
-  const [fromChain, toChain] = useModel(BasicModel).bridgePair
+interface PairOption {
+  pair: Pair
+  value: string
+}
 
-  const selectedPair = useMemo(
-    () => `${fromChain.chainId}-${toChain.chainId}`,
-    [fromChain.chainId, toChain.chainId],
+const BridgeSelector: React.FC = () => {
+  const { t } = useTranslation()
+  const { isActive, chainId } = useWeb3React()
+  const { switchChain } = useAuth()
+  const { bridgePair } = useModel(BasicModel)
+  const [visible, toggleVisible] = useState(false)
+
+  const pairMap = useMemo<PairOption[]>(
+    () => PAIRS.map((pair) => ({ pair, value: `${pair[0].chainId}-${pair[1].chainId}` })),
+    [],
   )
 
-  const [onPresentPair, onDismissPair, pairModal] = useModal(
-    <Modal title='Bridge pair' width='calc(100vw - 30px)'>
-      <PairWrapper>
-        {PAIRS.map(([from, to]) => {
-          const pair = `${from.chainId}-${to.chainId}`
-          return (
-            <BridgePair
-              key={pair}
-              fromChain={from}
-              toChain={to}
-              selected={selectedPair === pair}
-              onClick={() => {
-                const { label, chainLogo, ...chain } = from
-                switchChain(chain).then((switched) => {
-                  if (switched) {
-                    BasicModel.updateBridgePair([from, to])
-                    onDismissPair()
-                  }
-                })
-              }}
-            />
-          )
-        })}
-      </PairWrapper>
-    </Modal>,
+  const selectedPair = useMemo<PairOption>(
+    () => ({
+      pair: bridgePair,
+      value: `${bridgePair[0].chainId}-${bridgePair[1].chainId}`,
+    }),
+    [bridgePair],
+  )
+
+  const handlePair = useCallback(
+    async (option: PairOption, callback: Handler) => {
+      const { pair, value } = option
+      const { label, chainLogo, ...chain } = pair[0]
+
+      if (value === selectedPair.value) return
+
+      if (isActive) {
+        const switched = await switchChain(chain)
+        if (chainId === pair[0].chainId || switched) {
+          BasicModel.updateBridgePair(pair)
+          callback()
+        }
+      } else {
+        BasicModel.updateBridgePair(pair)
+        callback()
+      }
+    },
+    [chainId, isActive, selectedPair.value, switchChain],
   )
 
   return (
-    <BridgeButton onClick={onPresentPair}>
-      <BridgePair fromChain={fromChain} toChain={toChain} />
-      <ArrowRight style={{ transform: `rotate(${pairModal ? '180deg' : '0'} )` }} />
-    </BridgeButton>
+    <Selector<PairOption>
+      title={t('bridge_direction')}
+      selected={selectedPair}
+      options={pairMap}
+      renderOption={({ pair }) => <BridgePair pair={pair} />}
+      onSelect={handlePair}
+      onVisibleChange={toggleVisible}
+    >
+      <BridgeButton>
+        <BridgePair pair={bridgePair} />
+        <ArrowRight style={{ transform: `rotate(${visible ? '180deg' : '0'} )` }} />
+      </BridgeButton>
+    </Selector>
   )
 }
 

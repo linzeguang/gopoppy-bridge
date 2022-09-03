@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 13:39:44
- * @LastEditTime: 2022-09-02 13:48:35
+ * @LastEditTime: 2022-09-03 17:53:55
  * @LastEditors: linzeguang
  * @Description: 程序入口
  */
@@ -15,6 +15,7 @@ import { Providers } from './provider'
 import reportWebVitals from './reportWebVitals'
 
 import './models/store'
+import './i18n/config'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(

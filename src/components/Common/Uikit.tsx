@@ -1,15 +1,15 @@
 /*
  * @Author: linzeguang
- * @Date: 2022-09-02 13:06:09
- * @LastEditTime: 2022-09-03 15:41:19
+ * @Date: 2022-09-03 21:13:21
+ * @LastEditTime: 2022-09-03 21:14:17
  * @LastEditors: linzeguang
- * @Description:
+ * @Description: 组件库配置
  */
-import { Button as BaseButton } from 'zewide'
+import { Button as BaseButton, Modal } from 'zewide'
 
 import styled from '@emotion/styled'
 
-export const Button = styled(BaseButton)`
+const Button = styled(BaseButton)`
   min-height: 36px;
   padding: 0 15px;
   font-size: 16px;
@@ -18,3 +18,8 @@ export const Button = styled(BaseButton)`
   border-radius: 6px 6px 6px 6px;
   border: none;
 `
+Modal.defaultProps = {
+  width: 'calc(100vw - 40px)',
+}
+
+export { Button, Modal }
