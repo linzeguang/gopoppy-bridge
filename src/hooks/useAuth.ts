@@ -1,14 +1,14 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 18:43:30
- * @LastEditTime: 2022-09-02 16:11:18
+ * @LastEditTime: 2022-09-03 14:57:50
  * @LastEditors: linzeguang
  * @Description:
  */
 import { useCallback } from 'react'
 import toast from 'react-hot-toast'
-import { useStorageState } from 'react-storage-hooks'
 import { useComputed } from 'foca'
+import { useLocalStorage } from 'zewide'
 
 import { useWeb3React } from '@web3-react/core'
 import { MetaMask } from '@web3-react/metamask'
@@ -25,11 +25,8 @@ interface ConnectError extends Error {
 }
 
 export default function useAuth() {
-  const [, setSelectedConnector] = useStorageState<CONNECTOR | null>(
-    localStorage,
-    'selectedConnector',
-    null,
-  )
+  const [, setSelectedConnector] = useLocalStorage<CONNECTOR | null>('selectedConnector', null)
+
   const { connector, chainId, isActive } = useWeb3React()
   const { fromChain } = useComputed(BasicModel.bridgeChain)
   const { label, chainLogo, ...params } = fromChain

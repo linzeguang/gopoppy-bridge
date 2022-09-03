@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 02:59:33
- * @LastEditTime: 2022-09-02 04:11:13
+ * @LastEditTime: 2022-09-03 14:33:00
  * @LastEditors: linzeguang
  * @Description: 代币选择
  */
@@ -9,14 +9,14 @@ import React from 'react'
 
 import { Token } from '@/constants'
 
-interface Props {
+export interface TokenSelectorProps {
   value: string
   tokens: Token[]
   loading?: boolean
   onSelect: (address: string) => void
 }
 
-const TokenSelect: React.FC<Props> = ({ value, tokens, loading, onSelect }) => {
+const TokenSelector: React.FC<TokenSelectorProps> = ({ value, tokens, loading, onSelect }) => {
   const token = tokens.find(({ address }) => address === value)
 
   if (loading) return <div>Loading...</div>
@@ -38,4 +38,4 @@ const TokenSelect: React.FC<Props> = ({ value, tokens, loading, onSelect }) => {
   )
 }
 
-export default TokenSelect
+export default TokenSelector

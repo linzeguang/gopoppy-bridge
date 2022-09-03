@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 13:09:12
- * @LastEditTime: 2022-09-03 14:19:24
+ * @LastEditTime: 2022-09-03 14:43:41
  * @LastEditors: linzeguang
  * @Description: 钱包连接
  */
@@ -10,38 +10,20 @@ import { encrypt } from 'zewide'
 
 import { ConnectContext } from '@/provider'
 import { Icon } from '@/svgr'
-import styled from '@emotion/styled'
 import { useWeb3React } from '@web3-react/core'
 
-import { Button, PingFangSCSemibold } from '../Common'
+import { PingFangSCSemibold } from '../Common'
 
-const ConnectButton = styled(Button)`
-  grid-gap: 8px;
-  padding: 6px 12px;
-  font-size: 16px;
-
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-`
-
-const ConnectorImage = styled.img`
-  width: 20px;
-  height: 20px;
-`
+import { ConnectButton, ConnectorImage } from './styled'
 
 const ConnectWallet: React.FC = () => {
   const { isActive, account } = useWeb3React()
-  const { onPresentConnect, onPresentInfo, connectedConnection } =
-    useContext(ConnectContext)
+  const { onPresentConnect, onPresentInfo, connectedConnection } = useContext(ConnectContext)
 
   if (isActive && account) {
     return (
       <ConnectButton onClick={onPresentInfo}>
-        {connectedConnection && (
-          <ConnectorImage src={connectedConnection.icon} />
-        )}
+        {connectedConnection && <ConnectorImage src={connectedConnection.icon} />}
         <PingFangSCSemibold>{encrypt(account)}</PingFangSCSemibold>
       </ConnectButton>
     )

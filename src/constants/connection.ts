@@ -37,16 +37,15 @@ export const [injectedConnector, injectedHooks] = initializeConnector<MetaMask>(
 )
 
 // WalletConnect Connector
-export const [walletConnectConnector, walletConnectHooks] =
-  initializeConnector<WalletConnect>(
-    (actions) =>
-      new WalletConnect({
-        actions,
-        options: {
-          rpc: RPCURLS,
-        },
-      }),
-  )
+export const [walletConnectConnector, walletConnectHooks] = initializeConnector<WalletConnect>(
+  (actions) =>
+    new WalletConnect({
+      actions,
+      options: {
+        rpc: RPCURLS,
+      },
+    }),
+)
 
 export const connections: ConnectorInfo[] = [
   {
@@ -65,6 +64,4 @@ export const connections: ConnectorInfo[] = [
   },
 ]
 
-export const connectors: [Connector, Web3ReactHooks][] = connections.map(
-  (info) => [info.connector, info.hooks],
-)
+export const connectors: [Connector, Web3ReactHooks][] = connections.map((info) => [info.connector, info.hooks])

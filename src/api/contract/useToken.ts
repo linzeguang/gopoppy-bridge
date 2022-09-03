@@ -25,11 +25,7 @@ export default function useToken() {
       toggleLoading(true)
       try {
         console.log('获取原链代币对应目标链对代币 => address:', address)
-        const toAddresses = await getContractTo(
-          fromChain.chainId,
-          address,
-          toChain.chainId,
-        )
+        const toAddresses = await getContractTo(fromChain.chainId, address, toChain.chainId)
         setAddresses(toAddresses)
       } catch (error) {
         // 错误处理
@@ -40,10 +36,7 @@ export default function useToken() {
   )
 
   const tokens = useMemo(
-    () =>
-      Object.values(TOKENS[toChain.chainId]).filter((info) =>
-        addresses.includes(info.address),
-      ),
+    () => Object.values(TOKENS[toChain.chainId]).filter((info) => addresses.includes(info.address)),
     [addresses, toChain.chainId],
   )
 

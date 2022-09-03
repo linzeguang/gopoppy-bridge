@@ -26,8 +26,5 @@ interface BridgeContract extends Contract {
 export default function useBridgeContract() {
   const { fromChain } = useComputed(BasicModel.bridgeChain)
 
-  return useContract<BridgeContract>(
-    BRIDGEADDRESSES[fromChain.chainId],
-    BridgeAbi,
-  )
+  return useContract<BridgeContract>(BRIDGEADDRESSES[fromChain.chainId], BridgeAbi)
 }

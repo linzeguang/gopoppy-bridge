@@ -1,39 +1,24 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 13:49:47
- * @LastEditTime: 2022-09-02 17:24:00
+ * @LastEditTime: 2022-09-03 15:00:21
  * @LastEditors: linzeguang
  * @Description: 钱包连接modal
  */
 import React, { createContext, PropsWithChildren, useMemo } from 'react'
-import { useStorageState } from 'react-storage-hooks'
-import { encrypt, FlexRow, Grid, Handler, Modal, useModal } from 'zewide'
+import { encrypt, FlexRow, Grid, Handler, Modal, useLocalStorage, useModal } from 'zewide'
 
 import { css, Global } from '@emotion/react'
 import styled from '@emotion/styled'
 import { useWeb3React } from '@web3-react/core'
 
-import {
-  Button,
-  PingFangSCSemibold,
-  SFProTextMedium,
-  SFProTextRegular,
-} from '../components'
-import {
-  BRIDGECHAINS,
-  connections,
-  CONNECTOR,
-  ConnectorInfo,
-} from '../constants'
+import { Button, PingFangSCSemibold, SFProTextMedium, SFProTextRegular } from '../components'
+import { BRIDGECHAINS, connections, CONNECTOR, ConnectorInfo } from '../constants'
 import { useAuth } from '../hooks'
 
 const ConnectButton = styled(Button)`
+  height: 44px;
   justify-content: flex-start;
-  padding: 10px 15px;
-
-  ${PingFangSCSemibold} {
-    font-size: 16px;
-  }
 `
 
 ConnectButton.defaultProps = {
@@ -42,8 +27,8 @@ ConnectButton.defaultProps = {
 }
 
 const WalletImage = styled.img`
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   margin-right: 8px;
 `
 
@@ -56,7 +41,7 @@ const InfoMain = styled(Grid)`
     height: 20px;
     margin-right: 0;
   }
-  ${ConnectButton} {
+  ${Button} {
     width: 120px;
     margin: 20px auto 0;
     justify-content: center;
@@ -87,22 +72,14 @@ export const ConnectContext = createContext<ConnectState>({
 const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
   const { login, logout } = useAuth()
   const { account, chainId } = useWeb3React()
-  const [selectedConnector] = useStorageState<CONNECTOR | null>(
-    localStorage,
-    'selectedConnector',
-    null,
-  )
+  const [selectedConnector] = useLocalStorage<CONNECTOR | null>('selectedConnector', null)
 
   const connectedConnection = useMemo(
-    () =>
-      connections.find((connection) => connection.type === selectedConnector),
+    () => connections.find((connection) => connection.type === selectedConnector),
     [selectedConnector],
   )
 
-  const chainInfo = useMemo(
-    () => Object.values(BRIDGECHAINS).find((info) => info.chainId === chainId),
-    [chainId],
-  )
+  const chainInfo = useMemo(() => Object.values(BRIDGECHAINS).find((info) => info.chainId === chainId), [chainId])
 
   const connectedInfo = useMemo(
     () => [
@@ -131,12 +108,19 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
         value: account ? encrypt(account) : '--',
       },
     ],
-    [account, chainInfo, connectedConnection],
+    [
+      account,
+      chainInfo?.chainId,
+      chainInfo?.chainLogo,
+      chainInfo?.label,
+      connectedConnection?.icon,
+      connectedConnection?.name,
+    ],
   )
 
   const [onPresentConnect, onDismissConnect, connectModal] = useModal(
     <Modal title='Connect Wallet' width='calc(100vw - 30px)'>
-      <Grid gridGap='20px'>
+      <Grid gridGap='15px'>
         {connections.map((connection) => (
           <ConnectButton
             key={connection.name}
@@ -158,22 +142,14 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
     <Modal title='Wallet Info' width='calc(100vw - 30px)'>
       <InfoMain gridGap='10px'>
         {connectedInfo.map((info) => (
-          <FlexRow
-            key={info.label}
-            alignItems='center'
-            justifyContent='space-between'
-          >
+          <FlexRow key={info.label} alignItems='center' justifyContent='space-between'>
             <SFProTextRegular>{info.label}：</SFProTextRegular>
-            {info.render ? (
-              info.render()
-            ) : (
-              <SFProTextMedium>{info.value}</SFProTextMedium>
-            )}
+            {info.render ? info.render() : <SFProTextMedium>{info.value}</SFProTextMedium>}
           </FlexRow>
         ))}
-        <ConnectButton onClick={() => logout().then(() => onDismissInfo())}>
+        <Button onClick={() => logout().then(() => onDismissInfo())}>
           <PingFangSCSemibold>Disconnect</PingFangSCSemibold>
-        </ConnectButton>
+        </Button>
       </InfoMain>
     </Modal>,
   )

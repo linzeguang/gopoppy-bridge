@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 03:10:03
- * @LastEditTime: 2022-09-03 14:19:57
+ * @LastEditTime: 2022-09-03 14:33:31
  * @LastEditors: linzeguang
  * @Description: 交易组件
  */
@@ -12,7 +12,7 @@ import { useComputed } from 'foca'
 import { BridgeConfig, useConfig, useToken } from '@/api/contract'
 import { BasicModel } from '@/models'
 
-import { TokenSelect } from '../TokenSelect'
+import { TokenSelector } from '../TokenSelector'
 
 const Transfer: React.FC = () => {
   const { fromTokens } = useComputed(BasicModel.bridgeChain)
@@ -39,18 +39,9 @@ const Transfer: React.FC = () => {
   return (
     <div>
       <span>from:</span>
-      <TokenSelect
-        value={fromAddress}
-        tokens={fromTokens}
-        onSelect={setFromAddress}
-      />
+      <TokenSelector value={fromAddress} tokens={fromTokens} onSelect={setFromAddress} />
       <span>to:</span>
-      <TokenSelect
-        value={toAddress}
-        tokens={tokens}
-        onSelect={setToAddress}
-        loading={loading}
-      />
+      <TokenSelector value={toAddress} tokens={tokens} onSelect={setToAddress} loading={loading} />
       {config &&
         Object.keys(config).map((key) => (
           <div key={key}>
