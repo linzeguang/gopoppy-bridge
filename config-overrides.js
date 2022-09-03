@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 13:58:48
- * @LastEditTime: 2022-09-02 15:14:38
+ * @LastEditTime: 2022-09-03 14:03:55
  * @LastEditors: linzeguang
  * @Description: 打包配置
  */
@@ -11,6 +11,7 @@ const {
   addWebpackAlias,
   addWebpackPlugin,
   addWebpackResolve,
+  removeModuleScopePlugin,
   useBabelRc,
 } = require('customize-cra')
 const webpack = require('webpack')
@@ -21,6 +22,7 @@ const path = require('path')
 module.exports = override(
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useBabelRc(),
+  removeModuleScopePlugin(),
   // 打包进度条
   addWebpackPlugin(new ProgressBarPlugin()),
   // alias
@@ -51,6 +53,7 @@ module.exports = override(
         },
       }),
     ),
+
   // fix web3
   (config) => {
     config.ignoreWarnings = [/Failed to parse source map/]
