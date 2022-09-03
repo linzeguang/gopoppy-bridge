@@ -79,7 +79,10 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
     [selectedConnector],
   )
 
-  const chainInfo = useMemo(() => Object.values(BRIDGECHAINS).find((info) => info.chainId === chainId), [chainId])
+  const chainInfo = useMemo(
+    () => Object.values(BRIDGECHAINS).find((info) => info.chainId === chainId),
+    [chainId],
+  )
 
   const connectedInfo = useMemo(
     () => [

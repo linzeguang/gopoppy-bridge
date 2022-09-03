@@ -27,10 +27,8 @@ export default function useConfig() {
       try {
         console.log('获取原链合约Transfer配置 => address:', address)
 
-        const { maxAmountPerTx, minAmountPerTx, transferAmount, txFeeInMillion } = await getContract(
-          fromChain.chainId,
-          address,
-        )
+        const { maxAmountPerTx, minAmountPerTx, transferAmount, txFeeInMillion } =
+          await getContract(fromChain.chainId, address)
         setConfig({
           maxAmountPerTx: fromWei(maxAmountPerTx.toString()),
           minAmountPerTx: fromWei(minAmountPerTx.toString()),

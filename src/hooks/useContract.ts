@@ -24,7 +24,8 @@ export default function useContract<T extends Contract = Contract>(
   const { rpcUrls } = CHAINS[fromChain.chainId]
 
   return useMemo(
-    () => new Contract(address, contractInterface, provider || new StaticJsonRpcProvider(rpcUrls[0])),
+    () =>
+      new Contract(address, contractInterface, provider || new StaticJsonRpcProvider(rpcUrls[0])),
     [address, contractInterface, provider, rpcUrls],
   ) as T
 }

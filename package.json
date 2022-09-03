@@ -29,7 +29,7 @@
     "react-hot-toast": "^2.3.0",
     "react-scripts": "5.0.1",
     "web3-utils": "^1.7.5",
-    "zewide": "^0.0.33"
+    "zewide": "^0.0.34"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.10.2",
