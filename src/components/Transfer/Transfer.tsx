@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 03:10:03
- * @LastEditTime: 2022-09-02 10:41:29
+ * @LastEditTime: 2022-09-03 14:19:57
  * @LastEditors: linzeguang
  * @Description: 交易组件
  */
@@ -9,10 +9,10 @@ import React, { useEffect, useState } from 'react'
 import { useUpdateEffect } from 'ahooks'
 import { useComputed } from 'foca'
 
-import { BridgeConfig, useConfig, useToken } from '../api/contract'
-import { BasicModel } from '../models'
+import { BridgeConfig, useConfig, useToken } from '@/api/contract'
+import { BasicModel } from '@/models'
 
-import TokenSelect from './TokenSelect'
+import { TokenSelect } from '../TokenSelect'
 
 const Transfer: React.FC = () => {
   const { fromTokens } = useComputed(BasicModel.bridgeChain)

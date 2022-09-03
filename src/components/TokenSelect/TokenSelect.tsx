@@ -7,7 +7,7 @@
  */
 import React from 'react'
 
-import { Token } from '../constants'
+import { Token } from '@/constants'
 
 interface Props {
   value: string

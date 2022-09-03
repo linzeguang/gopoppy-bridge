@@ -1,21 +1,19 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 13:09:12
- * @LastEditTime: 2022-09-03 00:15:56
+ * @LastEditTime: 2022-09-03 14:19:24
  * @LastEditors: linzeguang
  * @Description: 钱包连接
  */
 import React, { useContext } from 'react'
 import { encrypt } from 'zewide'
 
+import { ConnectContext } from '@/provider'
+import { Icon } from '@/svgr'
 import styled from '@emotion/styled'
 import { useWeb3React } from '@web3-react/core'
 
-import { ConnectContext } from '../provider'
-import { Icon } from '../svgr'
-
-import Button from './Button'
-import { PingFangSCSemibold } from './Font'
+import { Button, PingFangSCSemibold } from '../Common'
 
 const ConnectButton = styled(Button)`
   grid-gap: 8px;
