@@ -1,20 +1,22 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 13:39:44
- * @LastEditTime: 2022-09-03 17:30:33
+ * @LastEditTime: 2022-09-04 04:00:00
  * @LastEditors: linzeguang
  * @Description: 页面入口
  */
 import React from 'react'
+import { Grid } from 'zewide'
 
-import { BridgeSelector } from './components'
+import { BridgeSelector, TransactionRecord } from './components'
 
 const App: React.FC = () => {
   return (
-    <React.Fragment>
+    <Grid gridGap={20}>
       <BridgeSelector />
       {/* <Transfer /> */}
-    </React.Fragment>
+      <TransactionRecord />
+    </Grid>
   )
 }
 

@@ -4,5 +4,6 @@
   "wallet_info": "Wallet Info",
   "manual_service": "Manual service",
   "language": "Language",
-  "bridge_direction": "Bridge Direction"
+  "bridge_direction": "Bridge Direction",
+  "transaction_record": "Transaction Record"
 }

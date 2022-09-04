@@ -6,6 +6,7 @@
  * @Description: 导出公共组件
  */
 
+export * from './Card'
 export * from './Font'
 export * from './LogoText'
 export * from './Selector'

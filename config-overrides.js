@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 13:58:48
- * @LastEditTime: 2022-09-03 14:03:55
+ * @LastEditTime: 2022-09-03 22:29:35
  * @LastEditors: linzeguang
  * @Description: 打包配置
  */
@@ -31,7 +31,12 @@ module.exports = override(
     '@': path.resolve(__dirname, './src/'),
   }),
   // 用于foca更新
-  addWebpackPlugin(new webpack.DefinePlugin({ __BUILD_TIME__: Date.now() })),
+  addWebpackPlugin(
+    new webpack.DefinePlugin({
+      __BUILD_TIME__: Date.now(),
+      __SERVER_URL__: 'http://api.gopoppy.co/api',
+    }),
+  ),
   // 注意是production环境启动该plugin
   process.env.NODE_ENV === 'production' &&
     addWebpackPlugin(

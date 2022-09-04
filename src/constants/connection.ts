@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 15:23:05
- * @LastEditTime: 2022-09-02 00:09:30
+ * @LastEditTime: 2022-09-04 03:56:09
  * @LastEditors: linzeguang
  * @Description: 连接器配置
  */
@@ -33,6 +33,7 @@ export const [injectedConnector, injectedHooks] = initializeConnector<MetaMask>(
   (actions) =>
     new MetaMask({
       actions,
+      onError: console.warn,
     }),
 )
 

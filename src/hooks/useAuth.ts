@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 18:43:30
- * @LastEditTime: 2022-09-03 21:40:10
+ * @LastEditTime: 2022-09-04 03:45:53
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -61,7 +61,7 @@ export default function useAuth() {
   const switchChain = useCallback(
     async (chain: Chain) => {
       // 避免重复点击
-      if (chainId === chain.chainId) return
+      if (chainId === chain.chainId) return true
 
       // 发起请求
       const status = await connect(connector, chain)

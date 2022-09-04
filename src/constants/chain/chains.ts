@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 14:14:15
- * @LastEditTime: 2022-09-02 02:19:41
+ * @LastEditTime: 2022-09-04 01:12:06
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -26,7 +26,7 @@ export const CHAINS: Record<CHAIN, Chain> = {
       decimals: 18,
     },
     rpcUrls: ['https://bsc-dataseed.binance.org/'],
-    blockExplorerUrls: ['https://bscscan.com'],
+    blockExplorerUrls: ['https://bscscan.com/'],
   },
   [CHAIN.TTS]: {
     chainId: CHAIN.TTS,
