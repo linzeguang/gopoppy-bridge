@@ -1,0 +1,12 @@
+@font-face {
+  font-family: SFProText-Regular;
+  src: url(../font/SFProText-Regular.ttf);
+}
+@font-face {
+  font-family: SFProText-Medium;
+  src: url(../font/SFProText-Medium.ttf);
+}
+@font-face {
+  font-family: DINAlternate-Bold;
+  src: url(../font/DINAlternate-Bold.ttf);
+}

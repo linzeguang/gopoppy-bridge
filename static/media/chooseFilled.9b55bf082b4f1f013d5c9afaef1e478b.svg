@@ -1,0 +1,13 @@
+<svg t="1662190718208" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7399"
+  width="48" height="48">
+  <defs>
+    <linearGradient id="Gradient1">
+      <stop stop-color="#eccc81" offset="0%" />
+      <stop stop-color="#dbb45c" offset="50%" />
+      <stop stop-color="#ca9a34" offset="100%" />
+    </linearGradient>
+  </defs>
+  <path
+    d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64z m244.3 316L440.9 694.8a3.9 3.9 0 0 1-5.6 0L267.7 527.5a3.9 3.9 0 0 1 0-5.6l45.2-45.2a4.2 4.2 0 0 1 5.7 0l116.7 116.5a3.9 3.9 0 0 0 5.6 0l264.5-264a4 4 0 0 1 5.7 0l45.2 45.1a4 4 0 0 1 0 5.7z"
+    p-id="7400" fill="url(#Gradient1)"></path>
+</svg>

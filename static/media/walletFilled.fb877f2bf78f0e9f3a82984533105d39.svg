@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_pop_wallet</title>
+    <defs>
+        <linearGradient id="Gradient1">
+            <stop stop-color="#eccc81" offset="0%" />
+            <stop stop-color="#dbb45c" offset="50%" />
+            <stop stop-color="#ca9a34" offset="100%" />
+        </linearGradient>
+    </defs>
+    <g id="主页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="跨链桥-已连接钱包-连接弹层" transform="translate(-1260.000000, -93.000000)">
+            <g id="弹层" transform="translate(1121.000000, 69.000000)">
+                <g id="icon_pop_wallet" transform="translate(139.000000, 24.000000)">
+                    <circle id="椭圆形" fill="url(#Gradient1)" cx="24" cy="24" r="24"></circle>
+                    <path
+                        d="M34.3764706,29.7078507 L34.3764706,31.037633 C34.3764706,33.3767214 32.4802648,35.2729271 30.1411765,35.2729271 L17.4352941,35.2729271 C15.0962058,35.2729271 13.2,33.3767214 13.2,31.037633 L13.2,21.1552801 C13.2,18.8161917 15.0962058,16.919986 17.4352941,16.919986 L30.1411765,16.919986 C32.4802648,16.919986 34.3764706,18.8161917 34.3764706,21.1552801 L34.3764706,22.5060265 L34.3764706,22.5060265"
+                        id="路径" stroke="#FFFFFF" stroke-width="2"></path>
+                    <path
+                        d="M16.7088464,17.0799262 L25.1930498,12.1995808 C25.8619757,11.7989995 26.690249,12.0215136 27.1283166,12.6872399 C28.2787703,14.435571 29.0375823,15.6374182 29.5741706,16.5379086"
+                        id="路径" stroke="#FFFFFF" stroke-width="2"></path>
+                    <g id="编组-4" transform="translate(24.494118, 22.567045)">
+                        <path
+                            d="M3,0 L11.7058824,0 C12.2581671,-1.08250786e-15 12.7058824,0.44771525 12.7058824,1 L12.7058824,6.05882353 C12.7058824,6.61110828 12.2581671,7.05882353 11.7058824,7.05882353 L3,7.05882353 C1.34314575,7.05882353 6.46995335e-16,5.71567778 0,4.05882353 L0,3 C2.41183085e-16,1.34314575 1.34314575,7.48448398e-16 3,0 Z"
+                            id="矩形" stroke="#FFFFFF" stroke-width="2"></path>
+                        <circle id="椭圆形" fill="#FFFFFF" cx="3.52941176" cy="3.52941176" r="1.41176471"></circle>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
