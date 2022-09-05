@@ -6,6 +6,7 @@
     "dev": "yarn start",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "build:gh-page": "PUBLIC_URL=/gopoppy-bridge react-app-rewired build",
     "lint": "npx eslint src --fix",
     "prettier": "npx prettier src --check --write",
     "format": "yarn tsc && yarn lint && yarn prettier"

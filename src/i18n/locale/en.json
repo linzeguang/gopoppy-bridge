@@ -26,5 +26,10 @@
   "balance": "Balance:",
   "wallet": "Wallet",
   "network": "Network",
-  "account_address": "Account Address"
+  "account_address": "Account Address",
+  "invalid": "Invalid",
+  "pending": "Pending",
+  "withdraw": "Withdraw",
+  "claim": "Claim",
+  "complete": "Complete"
 }

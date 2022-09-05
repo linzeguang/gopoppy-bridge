@@ -1,13 +1,13 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 18:07:44
- * @LastEditTime: 2022-09-04 20:06:17
+ * @LastEditTime: 2022-09-05 22:32:07
  * @LastEditors: linzeguang
  * @Description: 语言切换
  */
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Button, FlexRow } from 'zewide'
+import { Button, FlexRow, useLocalStorage } from 'zewide'
 
 import { Icon } from '@/svgr'
 import styled from '@emotion/styled'
@@ -56,6 +56,7 @@ interface Local extends InjectValue {
 const Language: React.FC = () => {
   const { i18n, t } = useTranslation()
   const [visible, toggleVisible] = useState(false)
+  const [, setSelectedLanguage] = useLocalStorage<string>('language', '')
 
   const config = useMemo<Local[]>(
     () => [
@@ -67,9 +68,9 @@ const Language: React.FC = () => {
       },
       {
         icon: '🇨🇳',
-        label: '简体中文',
-        name: '简体中文',
-        value: 'zh',
+        label: '繁体中文',
+        name: '繁体中文',
+        value: 'tw',
       },
     ],
     [],
@@ -95,6 +96,7 @@ const Language: React.FC = () => {
       onSelect={(params, callback) => {
         if (params.value === i18n.language) return
         i18n.changeLanguage(params.value)
+        setSelectedLanguage(params.value)
         callback()
       }}
       onVisibleChange={toggleVisible}

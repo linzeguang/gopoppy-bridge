@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-04 00:18:42
- * @LastEditTime: 2022-09-05 21:08:11
+ * @LastEditTime: 2022-09-05 22:28:08
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -135,14 +135,14 @@ const RecordItem: React.FC<
     if (isClaim)
       return (
         <Info className='status'>
-          <Button onClick={handleClaim}>{StatusEnum[status]}</Button>
+          <Button onClick={handleClaim}>{t(StatusEnum[status].toLowerCase())}</Button>
         </Info>
       )
 
     return (
       <Info className='status'>
         <Label>{t('status')}</Label>
-        <Value style={{ color }}>{statusText}</Value>
+        <Value style={{ color }}>{t(statusText.toLowerCase())}</Value>
       </Info>
     )
   }, [colors, handleClaim, signature, status, t])
