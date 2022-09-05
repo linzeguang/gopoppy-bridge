@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 03:10:03
- * @LastEditTime: 2022-09-05 21:14:22
+ * @LastEditTime: 2022-09-06 00:11:15
  * @LastEditors: linzeguang
  * @Description: 交易组件
  */
@@ -44,12 +44,23 @@ const Transfer: React.FC = () => {
 
   const [fromChain, toChain] = bridgePair
 
+  const lastTokens = useMemo(
+    () => ({
+      toTokens: tokens[fromToken.address] || [],
+      fromTokens: fromTokens.filter((token) => tokens[token.address]?.length),
+    }),
+    [fromToken.address, fromTokens, tokens],
+  )
+
   useEffect(() => {
     // 获取目标链token
-    fetchTokens(fromToken.address)
+    fetchTokens(fromTokens)
+  }, [fetchTokens, fromTokens])
+
+  useEffect(() => {
     // 获取当前交易token限额费率配置
     fetchConfig(fromToken.address)
-  }, [fetchBalance, fetchConfig, fetchTokens, fromToken, fromToken.address])
+  }, [fetchConfig, fromToken.address])
 
   useEffect(() => {
     // 获取当前链token balance
@@ -57,8 +68,8 @@ const Transfer: React.FC = () => {
   }, [fetchBalance, fromToken])
 
   useUpdateEffect(() => {
-    setToToken(tokens && tokens[0])
-  }, [tokens])
+    setToToken(lastTokens.toTokens && lastTokens.toTokens[0])
+  }, [lastTokens.toTokens])
 
   useUpdateEffect(() => {
     setFromToken(fromTokens[0])
@@ -114,7 +125,7 @@ const Transfer: React.FC = () => {
       <TransferControl
         direction='From'
         chain={fromChain}
-        tokens={fromTokens}
+        tokens={lastTokens.fromTokens}
         token={fromToken}
         balance={balance}
         balanceLoading={balanceLoading}
@@ -139,7 +150,7 @@ const Transfer: React.FC = () => {
       <TransferControl
         direction='To'
         chain={toChain}
-        tokens={tokens}
+        tokens={lastTokens.toTokens}
         token={toToken}
         tokenLoading={tokenLoading}
         onChangeToken={(token) => setToToken(token)}

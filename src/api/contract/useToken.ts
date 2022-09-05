@@ -1,16 +1,16 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 02:31:45
- * @LastEditTime: 2022-09-05 18:25:21
+ * @LastEditTime: 2022-09-06 00:01:36
  * @LastEditors: linzeguang
  * @Description:
  */
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDebounceFn } from 'ahooks'
 import { useComputed } from 'foca'
 
-import { TOKENS } from '../../constants'
+import { Token, TOKENS } from '../../constants'
 import { BasicModel } from '../../models'
 
 import { MetamaskError } from './types'
@@ -20,16 +20,26 @@ export default function useToken() {
   const { getContractTo } = useBridgeContract()
   const { fromChain, toChain } = useComputed(BasicModel.bridgeChain)
   const [loading, toggleLoading] = useState(true)
-  const [addresses, setAddresses] = useState<string[]>([])
+  const [tokens, setTokens] = useState<{ [key: string]: Token[] }>({})
 
   const { run: fetch } = useDebounceFn(
-    async (address: string) => {
+    async (fromTokens: Token[]) => {
       toggleLoading(true)
       try {
-        console.log('获取原链代币对应目标链对代币 => address:', address)
-        const toAddresses = await getContractTo(fromChain.chainId, address, toChain.chainId)
+        const toAddresses = await Promise.all(
+          fromTokens.map((token) =>
+            getContractTo(fromChain.chainId, token.address, toChain.chainId),
+          ),
+        )
         console.log('获取原链代币对应目标链对代币 => toAddresses:', toAddresses)
-        setAddresses(toAddresses)
+        fromTokens.map((token, index) =>
+          setTokens((prev) => ({
+            ...prev,
+            [token.address]: Object.values(TOKENS[toChain.chainId]).filter((info) =>
+              toAddresses[index].includes(info.address),
+            ),
+          })),
+        )
       } catch (error) {
         if (typeof error === 'string') {
           toast.error(error)
@@ -47,12 +57,5 @@ export default function useToken() {
     { wait: 200 },
   )
 
-  const tokens = useMemo(
-    () => Object.values(TOKENS[toChain.chainId]).filter((info) => addresses.includes(info.address)),
-    [addresses, toChain.chainId],
-  )
-
-  console.log(tokens)
-
-  return { addresses, tokens, loading, fetch }
+  return { tokens, loading, fetch }
 }

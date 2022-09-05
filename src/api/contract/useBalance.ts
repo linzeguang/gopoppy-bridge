@@ -1,12 +1,13 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-04 20:13:54
- * @LastEditTime: 2022-09-05 19:23:21
+ * @LastEditTime: 2022-09-06 00:18:22
  * @LastEditors: linzeguang
  * @Description: 获取余额
  */
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
+import { useDebounceFn } from 'ahooks'
 import { fromWei } from 'web3-utils'
 import { toThousand } from 'zewide'
 
@@ -22,7 +23,7 @@ export default function useBalance() {
   const [loading, toggleLoading] = useState(true)
   const [balance, setBalance] = useState('')
 
-  const fetch = useCallback(
+  const { run: fetch } = useDebounceFn(
     async (token?: Token) => {
       setBalance('')
       if (!provider || !account || !token) return
@@ -36,12 +37,13 @@ export default function useBalance() {
           balance = await provider.getBalance(account)
         } else {
           const contract = new Contract(address, Erc20Abi, getProviderOrSigner(provider, account))
-          console.log('useBalance contract', provider, contract)
           balance = await contract.balanceOf(account)
         }
-        console.log('balance', balance, token)
+        console.log('useBalance', token)
         setBalance(toThousand(fromWei(balance.toString())))
       } catch (error) {
+        console.log('balance error', address, token)
+
         if (typeof error === 'string') {
           toast.error(error)
         } else {
@@ -56,7 +58,7 @@ export default function useBalance() {
 
       toggleLoading(false)
     },
-    [account, provider],
+    { wait: 200 },
   )
 
   return { balance, fetch, loading }
