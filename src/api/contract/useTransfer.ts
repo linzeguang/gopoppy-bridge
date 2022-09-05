@@ -1,12 +1,13 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-05 01:14:03
- * @LastEditTime: 2022-09-05 19:22:04
+ * @LastEditTime: 2022-09-05 20:55:00
  * @LastEditors: linzeguang
  * @Description: 交易hooks
  */
 import { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import { fromWei, toWei } from 'web3-utils'
 
 import { BRIDGEADDRESSES, CHAIN, Erc20Abi, getProviderOrSigner, Token } from '@/constants'
@@ -17,6 +18,7 @@ import { MetamaskError } from './types'
 import useBridgeContract from './useBridgeContract'
 
 export default function useTransfer() {
+  const { t } = useTranslation()
   const { provider, account, chainId } = useWeb3React()
   const { receiveEther, erc20Transfer } = useBridgeContract()
   const bridgeAddress = BRIDGEADDRESSES[chainId as CHAIN]
@@ -63,7 +65,7 @@ export default function useTransfer() {
           tx = await erc20Transfer(fromToken.address, amount, toAddress, toChainId, toToken.address)
         }
         await tx.wait()
-        toast.success('Transfer success')
+        toast.success(t('transfer_success'))
       } catch (error) {
         if (typeof error === 'string') {
           toast.error(error)
@@ -78,7 +80,7 @@ export default function useTransfer() {
       }
       toggleLoading(false)
     },
-    [account, bridgeAddress, erc20Transfer, provider, receiveEther],
+    [account, bridgeAddress, erc20Transfer, provider, receiveEther, t],
   )
 
   return { transfer, loading }

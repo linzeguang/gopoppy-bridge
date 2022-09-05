@@ -1,12 +1,13 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 18:43:30
- * @LastEditTime: 2022-09-04 03:45:53
+ * @LastEditTime: 2022-09-05 21:17:34
  * @LastEditors: linzeguang
  * @Description:
  */
 import { useCallback } from 'react'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import { useComputed } from 'foca'
 import { useLocalStorage } from 'zewide'
 
@@ -25,37 +26,41 @@ interface ConnectError extends Error {
 }
 
 export default function useAuth() {
+  const { t } = useTranslation()
   const [, setSelectedConnector] = useLocalStorage<CONNECTOR | null>('selectedConnector', null)
 
   const { connector, chainId, isActive } = useWeb3React()
   const { fromChain } = useComputed(BasicModel.bridgeChain)
   const { label, chainLogo, ...params } = fromChain
 
-  const connect = useCallback(async (connector: Connector, chain: Chain) => {
-    try {
-      if (connector instanceof MetaMask) {
-        // MetaMask 钱包连接
-        await connector.activate(chain)
-      } else if (connector instanceof WalletConnect) {
-        // WalletConnect 钱包连接
-        await connector.activate(chain.chainId)
-      } else {
-        // 其他钱包
-        await connector.activate(chain)
-      }
-      return true
-    } catch (error) {
-      // 错误处理
-      if (error === 'rejected') {
-        toast.error('rejected')
+  const connect = useCallback(
+    async (connector: Connector, chain: Chain) => {
+      try {
+        if (connector instanceof MetaMask) {
+          // MetaMask 钱包连接
+          await connector.activate(chain)
+        } else if (connector instanceof WalletConnect) {
+          // WalletConnect 钱包连接
+          await connector.activate(chain.chainId)
+        } else {
+          // 其他钱包
+          await connector.activate(chain)
+        }
+        return true
+      } catch (error) {
+        // 错误处理
+        if (error === 'rejected') {
+          toast.error(t('user_rejected'))
+          return false
+        }
+
+        const { message } = error as ConnectError
+        toast.error(message)
         return false
       }
-
-      const { message } = error as ConnectError
-      toast.error(message)
-      return false
-    }
-  }, [])
+    },
+    [t],
+  )
 
   // 切换网络
   const switchChain = useCallback(

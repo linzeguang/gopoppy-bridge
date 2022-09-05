@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 13:49:47
- * @LastEditTime: 2022-09-05 00:34:05
+ * @LastEditTime: 2022-09-05 21:19:35
  * @LastEditors: linzeguang
  * @Description: 钱包连接modal
  */
@@ -94,7 +94,7 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
   const connectedInfo = useMemo(
     () => [
       {
-        label: 'Wallet',
+        label: t('wallet'),
         render: () => (
           <FlexRow alignItems='center' gridGap='4px'>
             <WalletImage src={connectedConnection?.icon} />
@@ -103,7 +103,7 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
         ),
       },
       {
-        label: 'Network',
+        label: t('network'),
         render: () => (
           <FlexRow alignItems='center' gridGap='4px'>
             <WalletImage src={chainInfo?.chainLogo} />
@@ -114,7 +114,7 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
         ),
       },
       {
-        label: 'Account Address',
+        label: t('account_address'),
         value: account ? encrypt(account) : '--',
       },
     ],
@@ -125,6 +125,7 @@ const ConnectProvider: React.FC<PropsWithChildren> = (props) => {
       chainInfo?.label,
       connectedConnection?.icon,
       connectedConnection?.name,
+      t,
     ],
   )
 

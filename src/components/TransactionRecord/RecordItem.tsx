@@ -1,11 +1,12 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-04 00:18:42
- * @LastEditTime: 2022-09-05 19:55:37
+ * @LastEditTime: 2022-09-05 21:08:11
  * @LastEditors: linzeguang
  * @Description:
  */
 import React, { useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useUpdateEffect } from 'ahooks'
 import dayjs from 'dayjs'
 import { fromWei } from 'web3-utils'
@@ -47,6 +48,7 @@ const RecordItem: React.FC<
     signature,
     onCliam,
   } = props
+  const { t } = useTranslation()
   const { colors } = useTheme()
   const { loading, fetch: fetchClaim } = useClaim()
 
@@ -59,12 +61,12 @@ const RecordItem: React.FC<
   const infos = useMemo<InfoProps[]>(
     () => [
       {
-        label: `From(${chainInfo?.label})`,
+        label: `${t('from')}(${chainInfo?.label})`,
         accessorKey: 'from_addr',
         value: encrypt(from_addr, 4, 4),
       },
       {
-        label: 'Token',
+        label: t('token'),
         accessorKey: 'token',
         renderValue: (
           <FlexRow gridGap='4px'>
@@ -73,14 +75,23 @@ const RecordItem: React.FC<
           </FlexRow>
         ),
       },
-      { label: 'Amount', accessorKey: 'amount', value: fromWei(amount).toString() },
+      { label: t('amount'), accessorKey: 'amount', value: fromWei(amount).toString() },
       {
-        label: `To(${toChainInfo?.label})`,
+        label: `${t('to')}(${toChainInfo?.label})`,
         accessorKey: 'to_address',
         value: encrypt(to_address, 4, 4),
       },
     ],
-    [amount, from_addr, to_address, tokenInfo, chainInfo, toChainInfo],
+    [
+      t,
+      chainInfo?.label,
+      from_addr,
+      tokenInfo?.icon,
+      tokenInfo?.symbol,
+      amount,
+      toChainInfo?.label,
+      to_address,
+    ],
   )
 
   const handleClaim = useCallback(
@@ -130,11 +141,11 @@ const RecordItem: React.FC<
 
     return (
       <Info className='status'>
-        <Label>Status</Label>
+        <Label>{t('status')}</Label>
         <Value style={{ color }}>{statusText}</Value>
       </Info>
     )
-  }, [colors, handleClaim, signature, status])
+  }, [colors, handleClaim, signature, status, t])
 
   useUpdateEffect(() => {
     onCliam(loading)

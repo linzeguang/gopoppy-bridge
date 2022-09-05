@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 21:59:18
- * @LastEditTime: 2022-09-05 19:47:44
+ * @LastEditTime: 2022-09-05 21:11:05
  * @LastEditors: linzeguang
  * @Description: 交易记录
  */
@@ -42,7 +42,7 @@ const TransactionRecord: React.FC = () => {
       return (
         <NoDataRow>
           <Icon.NoData />
-          <SFProTextRegular>No Data</SFProTextRegular>
+          <SFProTextRegular>{t('no_data')}</SFProTextRegular>
         </NoDataRow>
       )
     else
@@ -53,7 +53,7 @@ const TransactionRecord: React.FC = () => {
           ))}
         </>
       )
-  }, [colors.primary, txList, txListLoading])
+  }, [colors.primary, t, txList, txListLoading])
 
   if (!isActive) return null
 

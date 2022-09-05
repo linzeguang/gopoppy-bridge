@@ -1,11 +1,12 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 03:10:03
- * @LastEditTime: 2022-09-05 18:53:26
+ * @LastEditTime: 2022-09-05 21:14:22
  * @LastEditors: linzeguang
  * @Description: 交易组件
  */
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useUpdateEffect } from 'ahooks'
 import BigNumber from 'bignumber.js'
 import { useComputed, useModel } from 'foca'
@@ -26,6 +27,7 @@ import { CenterWrapper, Convert, Fee, Input, Submit } from './styled'
 import TransferControl from './TransferControl'
 
 const Transfer: React.FC = () => {
+  const { t } = useTranslation()
   const { account, isActive } = useWeb3React()
   const { onPresentConnect } = useContext(ConnectContext)
   const { bridgePair } = useModel(BasicModel)
@@ -130,7 +132,9 @@ const Transfer: React.FC = () => {
       </TransferControl>
       <CenterWrapper>
         <Convert />
-        <Fee>Fee: {fee || '--'}</Fee>
+        <Fee>
+          {t('fee')} {fee || '--'}
+        </Fee>
       </CenterWrapper>
       <TransferControl
         direction='To'
@@ -147,7 +151,7 @@ const Transfer: React.FC = () => {
         disabled={!isActive ? isActive : !amount || !toToken || overLimit || transferLoading}
         onClick={handleSubmit}
       >
-        Start
+        {t('start')}
       </Submit>
     </Card>
   )

@@ -1,11 +1,12 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-04 14:00:00
- * @LastEditTime: 2022-09-05 19:56:21
+ * @LastEditTime: 2022-09-05 21:16:10
  * @LastEditors: linzeguang
  * @Description: Transfer Control
  */
 import React, { PropsWithChildren, useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Box, FlexRow } from 'zewide'
 
 import { BridgeChain, Token } from '@/constants'
@@ -58,6 +59,7 @@ const TransferControl: React.FC<PropsWithChildren<Props>> = (props) => {
     renderTips,
     onChangeToken,
   } = props
+  const { t } = useTranslation()
   const { isActive } = useWeb3React()
   const [visible, toggleVisible] = useState(false)
 
@@ -82,15 +84,19 @@ const TransferControl: React.FC<PropsWithChildren<Props>> = (props) => {
           )}
         </TokenButton>
       )
-    return <TokenSymbol>No transfer tokens available</TokenSymbol>
-  }, [token, tokenLoading, tokenOptions.length, visible])
+    return <TokenSymbol>{t('no_transfer_tokens_available')}</TokenSymbol>
+  }, [t, token, tokenLoading, tokenOptions.length, visible])
 
   const renderBalance = useCallback(() => {
     if (!isActive) return null
     if (balance === undefined) return null
     if (balanceLoading) return <BalanceLoader />
-    return <Balance>Balance: {balance}</Balance>
-  }, [balance, balanceLoading, isActive])
+    return (
+      <Balance>
+        {t('balance')} {balance}
+      </Balance>
+    )
+  }, [balance, balanceLoading, isActive, t])
 
   return (
     <Box>

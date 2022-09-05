@@ -1,11 +1,12 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-05 00:56:14
- * @LastEditTime: 2022-09-05 01:11:40
+ * @LastEditTime: 2022-09-05 21:10:52
  * @LastEditors: linzeguang
  * @Description:
  */
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { AnimatePresence } from 'framer-motion'
 
 import { BridgeConfig } from '@/api/contract'
@@ -25,6 +26,7 @@ interface Props {
 
 const LimitError: React.FC<Props> = ({ amount, config }) => {
   const { minAmountPerTx, maxAmountPerTx } = config
+  const { t } = useTranslation()
 
   const overMin = useMemo(
     () => amount && Number(amount) < Number(minAmountPerTx),
@@ -36,10 +38,10 @@ const LimitError: React.FC<Props> = ({ amount, config }) => {
   )
 
   const message = useMemo(() => {
-    if (overMin) return `Min per Tx: ${minAmountPerTx}`
-    else if (overMax) return `Max per Tx: ${maxAmountPerTx}`
+    if (overMin) return `${t('min_per_tx')} ${minAmountPerTx}`
+    else if (overMax) return `${t('max_per_tx')} ${maxAmountPerTx}`
     return ''
-  }, [maxAmountPerTx, minAmountPerTx, overMax, overMin])
+  }, [maxAmountPerTx, minAmountPerTx, overMax, overMin, t])
 
   return (
     <AnimatePresence>{(overMin || overMax) && <ErrorText>{message}</ErrorText>}</AnimatePresence>

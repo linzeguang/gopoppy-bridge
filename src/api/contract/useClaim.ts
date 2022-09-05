@@ -1,13 +1,14 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-07-08 14:09:24
- * @LastEditTime: 2022-09-05 19:23:10
+ * @LastEditTime: 2022-09-05 20:53:49
  * @LastEditors: linzeguang
  * @Description:
  */
 
 import { useState } from 'react'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import { useDebounceFn } from 'ahooks'
 
 import { CHAIN, CHAINS, PAIRS } from '@/constants'
@@ -31,6 +32,7 @@ interface ClaimParams {
 }
 
 export default function useClaim() {
+  const { t } = useTranslation()
   const { chainId } = useWeb3React()
   const { switchChain } = useAuth()
   const { claim } = useBridgeContract()
@@ -62,7 +64,7 @@ export default function useClaim() {
           params.amount,
         )
         await tx.wait()
-        toast.success('Claim success')
+        toast.success(t('claim_success'))
         fetchTxList()
       } catch (error) {
         if (typeof error === 'string') {
