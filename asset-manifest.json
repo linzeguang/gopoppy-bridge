@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/gopoppy-bridge/static/js/main.79d4161e.js",
+    "main.js": "/gopoppy-bridge/static/js/main.07c4e8d4.js",
     "static/js/787.17686e00.chunk.js": "/gopoppy-bridge/static/js/787.17686e00.chunk.js",
     "static/media/bridge.svg": "/gopoppy-bridge/static/media/bridge.0ca0ced60d9f55377883aa1a5f1cb03a.svg",
     "static/media/walletFilled.svg": "/gopoppy-bridge/static/media/walletFilled.fb877f2bf78f0e9f3a82984533105d39.svg",
@@ -18,6 +18,6 @@
     "static/media/arrowRight.svg": "/gopoppy-bridge/static/media/arrowRight.289a0fabf55211ccc2c854b9f4c8c974.svg"
   },
   "entrypoints": [
-    "static/js/main.79d4161e.js"
+    "static/js/main.07c4e8d4.js"
   ]
 }
