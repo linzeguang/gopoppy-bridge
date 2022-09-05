@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 14:26:07
- * @LastEditTime: 2022-09-04 23:39:12
+ * @LastEditTime: 2022-09-06 00:43:52
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -34,8 +34,8 @@ export const TOKENS: Record<CHAIN, Record<string, Token>> = {
     },
     TTA: {
       type: 'token',
-      name: 'TTS Token',
-      symbol: 'TTS',
+      name: 'TTA Token',
+      symbol: 'TTA',
       address: '0x6B32A0d5a654f0B3377f2037578A99A3D5a4e023',
       icon: './images/token/TTA.png',
     },
