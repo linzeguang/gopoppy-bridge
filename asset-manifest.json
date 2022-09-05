@@ -1,7 +1,11 @@
 {
   "files": {
-    "main.js": "/gopoppy-bridge/static/js/main.3021b0de.js",
+    "main.js": "/gopoppy-bridge/static/js/main.4ed8c8e1.js",
     "static/js/787.17686e00.chunk.js": "/gopoppy-bridge/static/js/787.17686e00.chunk.js",
+    "web3.js": "/gopoppy-bridge/static/js/web3.2f4e94e2.js",
+    "fa.js": "/gopoppy-bridge/static/js/fa.340ed837.js",
+    "react-lib.js": "/gopoppy-bridge/static/js/react-lib.379fd63f.js",
+    "vendors.js": "/gopoppy-bridge/static/js/vendors.babf6154.js",
     "static/media/bridge.svg": "/gopoppy-bridge/static/media/bridge.0ca0ced60d9f55377883aa1a5f1cb03a.svg",
     "static/media/walletFilled.svg": "/gopoppy-bridge/static/media/walletFilled.fb877f2bf78f0e9f3a82984533105d39.svg",
     "static/media/wallet.svg": "/gopoppy-bridge/static/media/wallet.66a414e68baa3bd8cf85803d807fba9b.svg",
@@ -11,13 +15,17 @@
     "static/media/closeOutlined.svg": "/gopoppy-bridge/static/media/closeOutlined.80d93f0776117ba12a91c016a06c51cd.svg",
     "static/media/nodata.svg": "/gopoppy-bridge/static/media/nodata.9778026d9a122d7446b16bbdd86c6899.svg",
     "static/media/tips.svg": "/gopoppy-bridge/static/media/tips.25902772248eca4384987be47161d18d.svg",
-    "static/media/chooseFilled.svg": "/gopoppy-bridge/static/media/chooseFilled.9b55bf082b4f1f013d5c9afaef1e478b.svg",
     "index.html": "/gopoppy-bridge/index.html",
+    "static/media/chooseFilled.svg": "/gopoppy-bridge/static/media/chooseFilled.9b55bf082b4f1f013d5c9afaef1e478b.svg",
     "static/media/arrowDownFilled.svg": "/gopoppy-bridge/static/media/arrowDownFilled.f064b78cfdd6179640412ef4017d5068.svg",
     "static/media/arrowDownOutlined.svg": "/gopoppy-bridge/static/media/arrowDownOutlined.caf72b6625149fd2ecd63cb786d5f1b6.svg",
     "static/media/arrowRight.svg": "/gopoppy-bridge/static/media/arrowRight.289a0fabf55211ccc2c854b9f4c8c974.svg"
   },
   "entrypoints": [
-    "static/js/main.3021b0de.js"
+    "static/js/web3.2f4e94e2.js",
+    "static/js/fa.340ed837.js",
+    "static/js/react-lib.379fd63f.js",
+    "static/js/vendors.babf6154.js",
+    "static/js/main.4ed8c8e1.js"
   ]
 }
