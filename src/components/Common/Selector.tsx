@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 18:50:21
- * @LastEditTime: 2022-09-03 21:17:44
+ * @LastEditTime: 2022-09-04 21:54:50
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -40,7 +40,8 @@ export interface InjectValue {
 }
 
 export interface SelectorProps<T extends InjectValue> extends ModalProps {
-  selected: T
+  id?: string
+  selected: T | undefined
   options: T[]
   renderOption: (params: T) => React.ReactNode
   onSelect: (params: T, callback: Handler) => void
@@ -48,24 +49,28 @@ export interface SelectorProps<T extends InjectValue> extends ModalProps {
 }
 
 export function Selector<T extends InjectValue>(props: PropsWithChildren<SelectorProps<T>>) {
-  const { children, selected, options, renderOption, onSelect, onVisibleChange, ...rest } = props
+  const { children, selected, options, renderOption, onSelect, onVisibleChange, id, ...rest } =
+    props
 
-  const [onPresent, onDismiss, visible] = useModal(
+  const [onPresent, onDismiss, visible, nodeId] = useModal(
     <Modal {...rest}>
       <OpitonWrapper>
         {options.map((option, index) => (
           <OpitonRow key={index} onClick={() => onSelect(option, onDismiss)}>
             {renderOption(option)}
-            {selected.value === option.value && <Choose />}
+            {selected && selected.value === option.value && <Choose />}
           </OpitonRow>
         ))}
       </OpitonWrapper>
     </Modal>,
+    false,
+    false,
+    id,
   )
 
   useUpdateEffect(() => {
-    onVisibleChange && onVisibleChange(visible)
-  }, [visible])
+    onVisibleChange && onVisibleChange(visible && nodeId === id)
+  }, [visible, nodeId, id])
 
   return (
     <React.Fragment>

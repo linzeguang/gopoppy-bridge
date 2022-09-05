@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 22:14:27
- * @LastEditTime: 2022-09-04 03:15:08
+ * @LastEditTime: 2022-09-04 14:10:38
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -9,13 +9,29 @@ import { FlexColumn, FlexRow, Grid } from 'zewide'
 
 import styled from '@emotion/styled'
 
-import { PingFangSCSemibold, SFProTextMedium, SFProTextRegular } from '../Common'
+import { SFProTextMedium, SFProTextRegular } from '../Common'
 
-export const Title = styled(PingFangSCSemibold)`
-  padding-bottom: 10px;
+export const Title = styled(FlexRow)`
   margin-bottom: 20px;
   border-bottom: 1px solid;
   border-image: linear-gradient(to right, ${({ theme }) => theme.colors.grey}, transparent) 1;
+
+  ${SFProTextMedium} {
+    position: relative;
+    padding-bottom: 15px;
+    font-size: 20px;
+
+    ::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background-color: ${({ theme }) => theme.colors.primary};
+      border-radius: 4px 4px 0 0;
+    }
+  }
 `
 
 export const Main = styled(Grid)`

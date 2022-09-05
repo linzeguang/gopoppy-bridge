@@ -1,13 +1,12 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 14:41:12
- * @LastEditTime: 2022-09-03 20:50:16
+ * @LastEditTime: 2022-09-04 14:37:53
  * @LastEditors: linzeguang
  * @Description:
  */
 import { FlexRow } from 'zewide'
 
-import { Icon } from '@/svgr'
 import styled from '@emotion/styled'
 
 import { Button } from '../Common'
@@ -16,13 +15,6 @@ export const BridgeButton = styled(Button)`
   width: 100%;
   height: 40px;
   justify-content: space-between;
-`
-
-export const ArrowRight = styled(Icon.ArrowDownFilled)`
-  width: 12px;
-  height: 12px;
-  fill: #fff;
-  transition: all ${({ theme }) => theme.duration}s;
 `
 
 export const ChainInfo = styled(FlexRow)`

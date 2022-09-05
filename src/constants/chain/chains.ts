@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 14:14:15
- * @LastEditTime: 2022-09-04 01:12:06
+ * @LastEditTime: 2022-09-04 21:43:47
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -25,7 +25,7 @@ export const CHAINS: Record<CHAIN, Chain> = {
       symbol: 'BNB',
       decimals: 18,
     },
-    rpcUrls: ['https://bsc-dataseed.binance.org/'],
+    rpcUrls: ['https://bsc-dataseed.binance.org/', 'https://rpc.ankr.com/bsc'],
     blockExplorerUrls: ['https://bscscan.com/'],
   },
   [CHAIN.TTS]: {

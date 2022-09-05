@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 14:38:46
- * @LastEditTime: 2022-09-03 21:37:24
+ * @LastEditTime: 2022-09-04 20:04:43
  * @LastEditors: linzeguang
  * @Description: 跨链桥选择器
  */
@@ -16,9 +16,9 @@ import { BasicModel } from '@/models'
 import { Icon } from '@/svgr'
 import { useWeb3React } from '@web3-react/core'
 
-import { PingFangSCSemibold, Selector } from '../Common'
+import { ArrowDown, PingFangSCSemibold, Selector } from '../Common'
 
-import { ArrowRight, BridgeButton, ChainInfo, ChainLogo } from './styled'
+import { BridgeButton, ChainInfo, ChainLogo } from './styled'
 
 const BridgePair: React.FC<{
   pair: Pair
@@ -51,7 +51,7 @@ const BridgeSelector: React.FC = () => {
   const { bridgePair } = useModel(BasicModel)
   const [visible, toggleVisible] = useState(false)
 
-  const pairMap = useMemo<PairOption[]>(
+  const pairOptions = useMemo<PairOption[]>(
     () => PAIRS.map((pair) => ({ pair, value: `${pair[0].chainId}-${pair[1].chainId}` })),
     [],
   )
@@ -87,16 +87,17 @@ const BridgeSelector: React.FC = () => {
 
   return (
     <Selector<PairOption>
+      id='bridge-select'
       title={t('bridge_direction')}
       selected={selectedPair}
-      options={pairMap}
+      options={pairOptions}
       renderOption={({ pair }) => <BridgePair pair={pair} />}
       onSelect={handlePair}
       onVisibleChange={toggleVisible}
     >
       <BridgeButton>
         <BridgePair pair={bridgePair} />
-        <ArrowRight style={{ transform: `rotate(${visible ? '180deg' : '0'} )` }} />
+        <ArrowDown style={{ transform: `rotateX(${visible ? '180deg' : '0'} )` }} />
       </BridgeButton>
     </Selector>
   )

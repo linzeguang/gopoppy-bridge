@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 00:41:57
- * @LastEditTime: 2022-09-03 22:51:29
+ * @LastEditTime: 2022-09-05 01:59:33
  * @LastEditors: linzeguang
  * @Description: Toast 自定义
  */
@@ -16,6 +16,7 @@ const ToastUpdater: React.FC = () => {
   return (
     <Toaster
       toastOptions={{
+        className: 'toast',
         style: {
           borderRadius: '10px',
           background: colors.toast,

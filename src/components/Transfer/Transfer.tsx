@@ -1,54 +1,135 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 03:10:03
- * @LastEditTime: 2022-09-03 14:33:31
+ * @LastEditTime: 2022-09-05 01:39:30
  * @LastEditors: linzeguang
  * @Description: 交易组件
  */
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useUpdateEffect } from 'ahooks'
-import { useComputed } from 'foca'
+import BigNumber from 'bignumber.js'
+import { useComputed, useModel } from 'foca'
+import { toWei } from 'web3-utils'
 
-import { BridgeConfig, useConfig, useToken } from '@/api/contract'
+import { useBalance, useConfig, useToken, useTransfer } from '@/api/contract'
+import { Token } from '@/constants'
 import { BasicModel } from '@/models'
+import { useWeb3React } from '@web3-react/core'
 
-import { TokenSelector } from '../TokenSelector'
+import { Card } from '../Common'
+
+import LimitError from './LimitError'
+import LimitTips from './LimitTips'
+import ReciveAddress from './ReciveAddress'
+import { CenterWrapper, Convert, Fee, Input, Submit } from './styled'
+import TransferControl from './TransferControl'
 
 const Transfer: React.FC = () => {
+  const { account } = useWeb3React()
+  const { bridgePair } = useModel(BasicModel)
   const { fromTokens } = useComputed(BasicModel.bridgeChain)
-  const { tokens, fetch: fetchTokens, loading } = useToken()
+  const { tokens, fetch: fetchTokens } = useToken()
   const { config, fetch: fetchConfig } = useConfig()
-  const [fromAddress, setFromAddress] = useState<string>(fromTokens[0].address)
-  const [toAddress, setToAddress] = useState<string>('')
+  const { balance, fetch: fetchBalance } = useBalance()
+  const { transfer } = useTransfer()
+
+  const [fromToken, setFromToken] = useState<Token>(fromTokens[0])
+  const [toToken, setToToken] = useState<Token>()
+  const [amount, setAmount] = useState('')
+  const [address, setAddress] = useState('')
+
+  const [fromChain, toChain] = bridgePair
 
   useEffect(() => {
     // 获取目标链token
-    fetchTokens(fromAddress)
+    fetchTokens(fromToken.address)
     // 获取当前交易token限额费率配置
-    fetchConfig(fromAddress)
-  }, [fetchConfig, fetchTokens, fromAddress])
+    fetchConfig(fromToken.address)
+  }, [fetchBalance, fetchConfig, fetchTokens, fromToken, fromToken.address])
+
+  useEffect(() => {
+    // 获取当前链token balance
+    fetchBalance(fromToken)
+  }, [fetchBalance, fromToken])
 
   useUpdateEffect(() => {
-    setToAddress(tokens[0] ? tokens[0].address : '')
+    setToToken(tokens && tokens[0])
   }, [tokens])
 
   useUpdateEffect(() => {
-    setFromAddress(fromTokens[0].address)
+    setFromToken(fromTokens[0])
   }, [fromTokens])
 
+  const handleInput = useCallback((ev: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = ev.target
+    setAmount(value)
+  }, [])
+
+  const fee = useMemo(() => {
+    if (!config || !amount) return ''
+    return new BigNumber(config.txFeeInMillion)
+      .multipliedBy(amount)
+      .plus(fromToken.fee || 0)
+      .toString()
+  }, [amount, config, fromToken.fee])
+
+  const toAmount = useMemo(() => {
+    if (!amount) return ''
+    const _amount = new BigNumber(amount).minus(fee).toString()
+    if (Number(_amount) < 0) return '0'
+    return _amount
+  }, [amount, fee])
+
+  const overLimit = useMemo(() => {
+    return (
+      Number(amount) < Number(config?.minAmountPerTx) ||
+      Number(amount) > Number(config?.maxAmountPerTx)
+    )
+  }, [amount, config?.maxAmountPerTx, config?.minAmountPerTx])
+
+  const handleSubmit = useCallback(() => {
+    if (!account || !amount || !toToken) return
+    transfer(toWei(amount), address || account, toChain.chainId, fromToken, toToken)
+  }, [account, address, amount, fromToken, toChain.chainId, toToken, transfer])
+
   return (
-    <div>
-      <span>from:</span>
-      <TokenSelector value={fromAddress} tokens={fromTokens} onSelect={setFromAddress} />
-      <span>to:</span>
-      <TokenSelector value={toAddress} tokens={tokens} onSelect={setToAddress} loading={loading} />
-      {config &&
-        Object.keys(config).map((key) => (
-          <div key={key}>
-            {key} :{config[key as keyof BridgeConfig]}
-          </div>
-        ))}
-    </div>
+    <Card>
+      <TransferControl
+        direction='From'
+        chain={fromChain}
+        tokens={fromTokens}
+        token={fromToken}
+        balance={balance}
+        onChangeToken={(token) => setFromToken(token)}
+        renderTips={() => config && <LimitTips config={config} token={fromToken} />}
+      >
+        <Input
+          placeholder='0'
+          min={config?.minAmountPerTx}
+          max={config?.maxAmountPerTx}
+          value={amount}
+          onChange={handleInput}
+        />
+        {config && <LimitError amount={amount} config={config} />}
+      </TransferControl>
+      <CenterWrapper>
+        <Convert />
+        <Fee>Fee: {fee || '--'}</Fee>
+      </CenterWrapper>
+      <TransferControl
+        direction='To'
+        chain={toChain}
+        tokens={tokens}
+        token={toToken}
+        onChangeToken={(token) => setToToken(token)}
+      >
+        <Input placeholder='0' readOnly value={toAmount} />
+        <ReciveAddress value={address} onChange={(ev) => setAddress(ev.target.value)} />
+      </TransferControl>
+      <Submit disabled={!account || !amount || overLimit} onClick={handleSubmit}>
+        Start
+      </Submit>
+    </Card>
   )
 }
 

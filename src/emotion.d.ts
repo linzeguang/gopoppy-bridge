@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 11:41:45
- * @LastEditTime: 2022-09-04 02:54:09
+ * @LastEditTime: 2022-09-04 14:21:39
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -11,6 +11,8 @@ import '@emotion/react'
 
 declare module '@emotion/react' {
   export interface CustomColors extends Colors {
+    primary: string
+    input: string
     toast: string
     card: string
     border: string

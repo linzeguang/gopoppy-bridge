@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 03:59:08
- * @LastEditTime: 2022-09-04 04:24:18
+ * @LastEditTime: 2022-09-05 01:42:45
  * @LastEditors: linzeguang
  * @Description: 类型
  */
@@ -18,6 +18,11 @@ export interface MetamaskError {
   reason: string
   code: string
   action: string
+  message: string
+  data: {
+    code: string
+    message: string
+  }
   transaction: {
     data: string
     from: string

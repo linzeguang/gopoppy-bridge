@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 21:59:18
- * @LastEditTime: 2022-09-04 04:01:33
+ * @LastEditTime: 2022-09-04 14:08:28
  * @LastEditors: linzeguang
  * @Description: 交易记录
  */
@@ -12,7 +12,7 @@ import { useUpdateEffect } from 'ahooks'
 import { useTxList } from '@/api/https'
 import { useWeb3React } from '@web3-react/core'
 
-import { Card } from '../Common'
+import { Card, SFProTextMedium } from '../Common'
 
 import RecordItem from './RecordItem'
 import { Main, Title } from './styled'
@@ -28,7 +28,9 @@ const TransactionRecord: React.FC = () => {
 
   return (
     <Card>
-      <Title>{t('transaction_record')}</Title>
+      <Title>
+        <SFProTextMedium>{t('transaction_record')}</SFProTextMedium>
+      </Title>
       <Main>
         {txList.map((item) => (
           <RecordItem key={item.Id} {...item} />

@@ -1,17 +1,19 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 02:31:45
- * @LastEditTime: 2022-09-02 10:35:26
+ * @LastEditTime: 2022-09-04 22:29:32
  * @LastEditors: linzeguang
  * @Description:
  */
 import { useMemo, useState } from 'react'
+import toast from 'react-hot-toast'
 import { useDebounceFn } from 'ahooks'
 import { useComputed } from 'foca'
 
 import { TOKENS } from '../../constants'
 import { BasicModel } from '../../models'
 
+import { MetamaskError } from './types'
 import useBridgeContract from './useBridgeContract'
 
 export default function useToken() {
@@ -26,9 +28,19 @@ export default function useToken() {
       try {
         console.log('获取原链代币对应目标链对代币 => address:', address)
         const toAddresses = await getContractTo(fromChain.chainId, address, toChain.chainId)
+        console.log('获取原链代币对应目标链对代币 => toAddresses:', toAddresses)
         setAddresses(toAddresses)
       } catch (error) {
         // 错误处理
+        if (typeof error === 'string') {
+          return toast.error(error)
+        }
+        const txError = { ...(error as MetamaskError) }
+        for (const key in txError) {
+          console.log(`error: ${key}:`, txError[key as keyof MetamaskError])
+        }
+        // 错误处理
+        toast.error(txError.reason)
       }
       toggleLoading(false)
     },

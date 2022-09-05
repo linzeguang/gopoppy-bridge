@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 13:39:44
- * @LastEditTime: 2022-09-03 17:53:55
+ * @LastEditTime: 2022-09-05 01:50:58
  * @LastEditors: linzeguang
  * @Description: 程序入口
  */
@@ -25,6 +25,11 @@ root.render(
         .walletconnect-modal__footer {
           max-width: 100%;
           flex-wrap: wrap;
+        }
+        .toast {
+          div[role='status'] {
+            word-break: break-all;
+          }
         }
       `}
     />

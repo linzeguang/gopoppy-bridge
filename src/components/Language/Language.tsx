@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 18:07:44
- * @LastEditTime: 2022-09-03 21:32:48
+ * @LastEditTime: 2022-09-04 20:06:17
  * @LastEditors: linzeguang
  * @Description: 语言切换
  */
@@ -82,6 +82,7 @@ const Language: React.FC = () => {
 
   return (
     <Selector<Local>
+      id='language-select'
       title={t('language')}
       selected={selected}
       options={config}
@@ -103,7 +104,7 @@ const Language: React.FC = () => {
         <SFProTextMedium>{selected?.label}</SFProTextMedium>
         <Icon.ArrowDownOutlined
           className='arrow'
-          style={{ transform: `rotate(${visible ? '180deg' : '0'} )` }}
+          style={{ transform: `rotateX(${visible ? '180deg' : '0'} )` }}
         />
       </StyledButton>
     </Selector>
