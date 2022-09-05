@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-07-08 14:09:24
- * @LastEditTime: 2022-09-04 13:46:11
+ * @LastEditTime: 2022-09-05 19:23:10
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -36,21 +36,21 @@ export default function useClaim() {
   const { claim } = useBridgeContract()
   const { fetch: fetchTxList } = useTxList()
 
-  const [loading, toggle] = useState(false)
+  const [loading, toggleLoading] = useState(false)
 
   const { run: fetch } = useDebounceFn(
     async (params: ClaimParams, toChainId: CHAIN) => {
       console.log('claim token => params: ', params, claim)
+      toggleLoading(true)
 
       let switchStatus: boolean = true
       if (chainId !== toChainId) {
         const bridgrPair = PAIRS.find((pair) => pair[0].chainId === toChainId)
         switchStatus = await switchChain(CHAINS[toChainId])
         switchStatus && bridgrPair && BasicModel.updateBridgePair(bridgrPair)
-        return
+        return toggleLoading(false)
       }
 
-      toggle(true)
       try {
         const tx = await claim(
           params.signature,
@@ -66,15 +66,17 @@ export default function useClaim() {
         fetchTxList()
       } catch (error) {
         if (typeof error === 'string') {
-          return toast.error(error)
+          toast.error(error)
+        } else {
+          const txError = { ...(error as MetamaskError) }
+          for (const key in txError) {
+            console.log(`error: ${key}:`, txError[key as keyof MetamaskError])
+          }
+          // 错误处理
+          toast.error(txError.data?.message || txError.message || txError.reason)
         }
-        const txError = { ...(error as MetamaskError) }
-        for (const key in txError) {
-          console.log(`error: ${key}:`, txError[key as keyof MetamaskError])
-        }
-        // 错误处理
-        toast.error(txError.reason)
       }
+      toggleLoading(false)
     },
     { wait: 200 },
   )

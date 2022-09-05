@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 02:31:45
- * @LastEditTime: 2022-09-04 22:29:32
+ * @LastEditTime: 2022-09-05 18:25:21
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -31,16 +31,16 @@ export default function useToken() {
         console.log('获取原链代币对应目标链对代币 => toAddresses:', toAddresses)
         setAddresses(toAddresses)
       } catch (error) {
-        // 错误处理
         if (typeof error === 'string') {
-          return toast.error(error)
+          toast.error(error)
+        } else {
+          const txError = { ...(error as MetamaskError) }
+          for (const key in txError) {
+            console.log(`error: ${key}:`, txError[key as keyof MetamaskError])
+          }
+          // 错误处理
+          toast.error(txError.data?.message || txError.message || txError.reason)
         }
-        const txError = { ...(error as MetamaskError) }
-        for (const key in txError) {
-          console.log(`error: ${key}:`, txError[key as keyof MetamaskError])
-        }
-        // 错误处理
-        toast.error(txError.reason)
       }
       toggleLoading(false)
     },
@@ -51,6 +51,8 @@ export default function useToken() {
     () => Object.values(TOKENS[toChain.chainId]).filter((info) => addresses.includes(info.address)),
     [addresses, toChain.chainId],
   )
+
+  console.log(tokens)
 
   return { addresses, tokens, loading, fetch }
 }

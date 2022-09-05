@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 18:50:21
- * @LastEditTime: 2022-09-04 21:54:50
+ * @LastEditTime: 2022-09-05 17:04:26
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -76,7 +76,7 @@ export function Selector<T extends InjectValue>(props: PropsWithChildren<Selecto
     <React.Fragment>
       {React.isValidElement(children) &&
         React.cloneElement(children as React.ReactElement, {
-          onClick: onPresent,
+          onClick: () => (options.length <= 1 ? null : onPresent()),
         })}
     </React.Fragment>
   )

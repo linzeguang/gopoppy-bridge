@@ -1,11 +1,11 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 03:10:03
- * @LastEditTime: 2022-09-05 01:39:30
+ * @LastEditTime: 2022-09-05 18:53:26
  * @LastEditors: linzeguang
  * @Description: 交易组件
  */
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useUpdateEffect } from 'ahooks'
 import BigNumber from 'bignumber.js'
 import { useComputed, useModel } from 'foca'
@@ -14,6 +14,7 @@ import { toWei } from 'web3-utils'
 import { useBalance, useConfig, useToken, useTransfer } from '@/api/contract'
 import { Token } from '@/constants'
 import { BasicModel } from '@/models'
+import { ConnectContext } from '@/provider'
 import { useWeb3React } from '@web3-react/core'
 
 import { Card } from '../Common'
@@ -25,13 +26,14 @@ import { CenterWrapper, Convert, Fee, Input, Submit } from './styled'
 import TransferControl from './TransferControl'
 
 const Transfer: React.FC = () => {
-  const { account } = useWeb3React()
+  const { account, isActive } = useWeb3React()
+  const { onPresentConnect } = useContext(ConnectContext)
   const { bridgePair } = useModel(BasicModel)
   const { fromTokens } = useComputed(BasicModel.bridgeChain)
-  const { tokens, fetch: fetchTokens } = useToken()
+  const { tokens, fetch: fetchTokens, loading: tokenLoading } = useToken()
   const { config, fetch: fetchConfig } = useConfig()
-  const { balance, fetch: fetchBalance } = useBalance()
-  const { transfer } = useTransfer()
+  const { balance, fetch: fetchBalance, loading: balanceLoading } = useBalance()
+  const { transfer, loading: transferLoading } = useTransfer()
 
   const [fromToken, setFromToken] = useState<Token>(fromTokens[0])
   const [toToken, setToToken] = useState<Token>()
@@ -88,18 +90,32 @@ const Transfer: React.FC = () => {
   }, [amount, config?.maxAmountPerTx, config?.minAmountPerTx])
 
   const handleSubmit = useCallback(() => {
+    if (!isActive) return onPresentConnect()
+
     if (!account || !amount || !toToken) return
+
     transfer(toWei(amount), address || account, toChain.chainId, fromToken, toToken)
-  }, [account, address, amount, fromToken, toChain.chainId, toToken, transfer])
+  }, [
+    account,
+    address,
+    amount,
+    fromToken,
+    isActive,
+    onPresentConnect,
+    toChain.chainId,
+    toToken,
+    transfer,
+  ])
 
   return (
-    <Card>
+    <Card loading={transferLoading}>
       <TransferControl
         direction='From'
         chain={fromChain}
         tokens={fromTokens}
         token={fromToken}
         balance={balance}
+        balanceLoading={balanceLoading}
         onChangeToken={(token) => setFromToken(token)}
         renderTips={() => config && <LimitTips config={config} token={fromToken} />}
       >
@@ -121,12 +137,16 @@ const Transfer: React.FC = () => {
         chain={toChain}
         tokens={tokens}
         token={toToken}
+        tokenLoading={tokenLoading}
         onChangeToken={(token) => setToToken(token)}
       >
         <Input placeholder='0' readOnly value={toAmount} />
         <ReciveAddress value={address} onChange={(ev) => setAddress(ev.target.value)} />
       </TransferControl>
-      <Submit disabled={!account || !amount || overLimit} onClick={handleSubmit}>
+      <Submit
+        disabled={!isActive ? isActive : !amount || !toToken || overLimit || transferLoading}
+        onClick={handleSubmit}
+      >
         Start
       </Submit>
     </Card>

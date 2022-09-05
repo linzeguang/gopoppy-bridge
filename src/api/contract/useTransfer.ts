@@ -1,11 +1,11 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-05 01:14:03
- * @LastEditTime: 2022-09-05 15:45:41
+ * @LastEditTime: 2022-09-05 19:22:04
  * @LastEditors: linzeguang
  * @Description: 交易hooks
  */
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
 import { fromWei, toWei } from 'web3-utils'
 
@@ -21,6 +21,8 @@ export default function useTransfer() {
   const { receiveEther, erc20Transfer } = useBridgeContract()
   const bridgeAddress = BRIDGEADDRESSES[chainId as CHAIN]
 
+  const [loading, toggleLoading] = useState(false)
+
   const transfer = useCallback(
     async (
       amount: string,
@@ -30,6 +32,7 @@ export default function useTransfer() {
       toToken: Token,
     ) => {
       if (!provider || !account) return
+      toggleLoading(true)
       let tx: any
       try {
         if (fromToken.type === 'main') {
@@ -63,18 +66,20 @@ export default function useTransfer() {
         toast.success('Transfer success')
       } catch (error) {
         if (typeof error === 'string') {
-          return toast.error(error)
+          toast.error(error)
+        } else {
+          const txError = { ...(error as MetamaskError) }
+          for (const key in txError) {
+            console.log(`error: ${key}:`, txError[key as keyof MetamaskError])
+          }
+          // 错误处理
+          toast.error(txError.data?.message || txError.message || txError.reason)
         }
-        const txError = { ...(error as MetamaskError) }
-        for (const key in txError) {
-          console.log(`error: ${key}:`, txError[key as keyof MetamaskError])
-        }
-        // 错误处理
-        toast.error(txError.data?.message || txError.message || txError.reason)
       }
+      toggleLoading(false)
     },
     [account, bridgeAddress, erc20Transfer, provider, receiveEther],
   )
 
-  return { transfer }
+  return { transfer, loading }
 }

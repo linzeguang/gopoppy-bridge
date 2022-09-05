@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-04 20:13:54
- * @LastEditTime: 2022-09-05 15:54:06
+ * @LastEditTime: 2022-09-05 19:23:21
  * @LastEditors: linzeguang
  * @Description: 获取余额
  */
@@ -19,7 +19,7 @@ import { MetamaskError } from './types'
 export default function useBalance() {
   const { provider, account } = useWeb3React()
 
-  const [loading, toggleLoading] = useState(false)
+  const [loading, toggleLoading] = useState(true)
   const [balance, setBalance] = useState('')
 
   const fetch = useCallback(
@@ -42,17 +42,16 @@ export default function useBalance() {
         console.log('balance', balance, token)
         setBalance(toThousand(fromWei(balance.toString())))
       } catch (error) {
-        console.log('useBalance error', error)
-
         if (typeof error === 'string') {
-          return toast.error(error)
+          toast.error(error)
+        } else {
+          const txError = { ...(error as MetamaskError) }
+          for (const key in txError) {
+            console.log(`error: ${key}:`, txError[key as keyof MetamaskError])
+          }
+          // 错误处理
+          toast.error(txError.data?.message || txError.message || txError.reason)
         }
-        const txError = { ...(error as MetamaskError) }
-        for (const key in txError) {
-          console.log(`error: ${key}:`, txError[key as keyof MetamaskError])
-        }
-        // 错误处理
-        toast.error(txError.reason)
       }
 
       toggleLoading(false)

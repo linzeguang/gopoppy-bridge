@@ -34,6 +34,7 @@
     "react-hot-toast": "^2.3.0",
     "react-i18next": "^11.18.5",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.13.4",
     "web3-utils": "^1.7.5",
     "zewide": "^0.0.41"
   },

@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-04 13:55:17
- * @LastEditTime: 2022-09-05 01:08:21
+ * @LastEditTime: 2022-09-05 19:36:11
  * @LastEditors: linzeguang
  * @Description: Transfer styled components
  */
@@ -53,6 +53,12 @@ export const TokenControl = styled(Box)`
 
 export const TokenButton = styled(Button)`
   grid-gap: 4px;
+`
+
+export const TokenSymbol = styled(SFProTextMedium)`
+  font-size: 16px;
+  line-height: 20px;
+  color: ${({ theme }) => theme.colors.white};
 `
 
 TokenButton.defaultProps = {
@@ -118,7 +124,12 @@ export const AddressLabel = styled(SFProTextRegular)`
   grid-gap: 6px;
   align-items: center;
   font-size: 14px;
-  color: ${({ theme }) => theme.colors.primary};
+
+  span {
+    background: linear-gradient(to right, #eccc81, #dbb45c, #ca9a34);
+    background-clip: text;
+    color: transparent;
+  }
 
   ${ArrowDown} {
     fill: ${({ theme }) => theme.colors.primary};
@@ -139,7 +150,7 @@ export const Submit = styled(SubmitButton)`
   font-weight: bold;
 
   :disabled {
-    opacity: 0.6;
+    opacity: 0.8;
     cursor: not-allowed;
   }
 `

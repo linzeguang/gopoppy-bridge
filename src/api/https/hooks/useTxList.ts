@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 22:37:01
- * @LastEditTime: 2022-09-04 03:54:44
+ * @LastEditTime: 2022-09-05 18:59:37
  * @LastEditors: linzeguang
  * @Description: 获取交易列表
  */
@@ -16,11 +16,13 @@ import { Response, TXData } from '../types'
 
 export default function useTxList() {
   const { account } = useWeb3React()
+  const [loading, toggleLoading] = useState(false)
   const [errorsCount, updateErrorsCount] = useState(0)
   const [txList, updateTxList] = useState<TXData[]>([])
 
   const fetch = useCallback(async () => {
     if (!account) return
+    if (!txList.length) toggleLoading(true)
     try {
       const res = await http.post<Response<TXData[]>>('/web/bridge/txList', {
         wallet: account,
@@ -33,7 +35,8 @@ export default function useTxList() {
         toast.error((error as any).message)
       } else updateErrorsCount(errorsCount + 1)
     }
-  }, [account, errorsCount])
+    toggleLoading(false)
+  }, [account, errorsCount, txList.length])
 
-  return { txList, fetch }
+  return { loading, txList, fetch }
 }

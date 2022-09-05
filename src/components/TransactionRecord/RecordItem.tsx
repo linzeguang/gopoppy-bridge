@@ -1,11 +1,12 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-04 00:18:42
- * @LastEditTime: 2022-09-04 04:06:37
+ * @LastEditTime: 2022-09-05 19:13:15
  * @LastEditors: linzeguang
  * @Description:
  */
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
+import { useUpdateEffect } from 'ahooks'
 import dayjs from 'dayjs'
 import { fromWei } from 'web3-utils'
 import { encrypt, FlexRow } from 'zewide'
@@ -26,7 +27,11 @@ interface InfoProps {
   renderValue?: React.ReactNode
 }
 
-const RecordItem: React.FC<TXData> = (props) => {
+const RecordItem: React.FC<
+  TXData & {
+    onCliam: (loading: boolean) => void
+  }
+> = (props) => {
   const {
     tx_hash,
     token,
@@ -40,9 +45,10 @@ const RecordItem: React.FC<TXData> = (props) => {
     to_contract_address,
     status,
     signature,
+    onCliam,
   } = props
   const { colors } = useTheme()
-  const { fetch: fetchClaim } = useClaim()
+  const { loading, fetch: fetchClaim } = useClaim()
 
   const chainInfo = useMemo(() => BRIDGECHAINS[chain_id], [chain_id])
   const toChainInfo = useMemo(() => BRIDGECHAINS[to_chain_id], [to_chain_id])
@@ -129,6 +135,10 @@ const RecordItem: React.FC<TXData> = (props) => {
       </Info>
     )
   }, [colors, handleClaim, signature, status])
+
+  useUpdateEffect(() => {
+    onCliam(loading)
+  }, [onCliam, loading])
 
   return (
     <InfoWrapper>

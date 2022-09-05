@@ -2,11 +2,18 @@
 <svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>icon_pop_wallet</title>
+    <defs>
+        <linearGradient id="Gradient1">
+            <stop stop-color="#eccc81" offset="0%" />
+            <stop stop-color="#dbb45c" offset="50%" />
+            <stop stop-color="#ca9a34" offset="100%" />
+        </linearGradient>
+    </defs>
     <g id="主页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="跨链桥-已连接钱包-连接弹层" transform="translate(-1260.000000, -93.000000)">
             <g id="弹层" transform="translate(1121.000000, 69.000000)">
                 <g id="icon_pop_wallet" transform="translate(139.000000, 24.000000)">
-                    <circle id="椭圆形" fill="#F8BC00" cx="24" cy="24" r="24"></circle>
+                    <circle id="椭圆形" fill="url(#Gradient1)" cx="24" cy="24" r="24"></circle>
                     <path
                         d="M34.3764706,29.7078507 L34.3764706,31.037633 C34.3764706,33.3767214 32.4802648,35.2729271 30.1411765,35.2729271 L17.4352941,35.2729271 C15.0962058,35.2729271 13.2,33.3767214 13.2,31.037633 L13.2,21.1552801 C13.2,18.8161917 15.0962058,16.919986 17.4352941,16.919986 L30.1411765,16.919986 C32.4802648,16.919986 34.3764706,18.8161917 34.3764706,21.1552801 L34.3764706,22.5060265 L34.3764706,22.5060265"
                         id="路径" stroke="#FFFFFF" stroke-width="2"></path>

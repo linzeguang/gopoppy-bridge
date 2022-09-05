@@ -1,16 +1,25 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-04 14:00:00
- * @LastEditTime: 2022-09-04 23:46:07
+ * @LastEditTime: 2022-09-05 19:20:00
  * @LastEditors: linzeguang
  * @Description: Transfer Control
  */
-import React, { PropsWithChildren, useMemo, useState } from 'react'
+import React, { PropsWithChildren, useCallback, useMemo, useState } from 'react'
+import { useDebounceFn } from 'ahooks'
 import { Box, FlexRow } from 'zewide'
 
 import { BridgeChain, Token } from '@/constants'
+import { useWeb3React } from '@web3-react/core'
 
-import { ArrowDown, InjectValue, Selector, SFProTextMedium } from '../Common'
+import {
+  ArrowDown,
+  BalanceLoader,
+  InjectValue,
+  Selector,
+  SFProTextMedium,
+  TokenLoader,
+} from '../Common'
 
 import {
   Balance,
@@ -20,6 +29,7 @@ import {
   Image,
   TokenButton,
   TokenControl,
+  TokenSymbol,
 } from './styled'
 
 type TokenOption = Token & InjectValue
@@ -29,13 +39,27 @@ interface Props {
   chain: BridgeChain
   tokens: Token[]
   token?: Token
+  tokenLoading?: boolean
   balance?: string
+  balanceLoading?: boolean
   renderTips?: () => React.ReactNode
   onChangeToken: (token: Token) => void
 }
 
 const TransferControl: React.FC<PropsWithChildren<Props>> = (props) => {
-  const { children, direction, chain, tokens, token, balance, renderTips, onChangeToken } = props
+  const {
+    children,
+    direction,
+    chain,
+    tokens,
+    token,
+    tokenLoading,
+    balance,
+    balanceLoading,
+    renderTips,
+    onChangeToken,
+  } = props
+  const { isActive } = useWeb3React()
   const [visible, toggleVisible] = useState(false)
 
   const tokenOptions = useMemo<TokenOption[]>(
@@ -46,6 +70,28 @@ const TransferControl: React.FC<PropsWithChildren<Props>> = (props) => {
       })),
     [tokens],
   )
+
+  const renderToken = useCallback(() => {
+    if (tokenLoading) return <TokenLoader />
+    if (token)
+      return (
+        <TokenButton>
+          <Image src={token.icon} />
+          <TokenSymbol>{token.symbol}</TokenSymbol>
+          {tokenOptions.length > 1 && (
+            <ArrowDown style={{ transform: `rotateX(${visible ? '180deg' : '0'} )` }} />
+          )}
+        </TokenButton>
+      )
+    return <TokenSymbol>No transfer tokens available</TokenSymbol>
+  }, [token, tokenLoading, tokenOptions.length, visible])
+
+  const renderBalance = useCallback(() => {
+    if (!isActive) return null
+    if (balance === undefined) return null
+    if (balanceLoading) return <BalanceLoader />
+    return <Balance>Balance: {balance}</Balance>
+  }, [balance, balanceLoading, isActive])
 
   return (
     <Box>
@@ -76,15 +122,11 @@ const TransferControl: React.FC<PropsWithChildren<Props>> = (props) => {
               }}
               onVisibleChange={toggleVisible}
             >
-              <TokenButton>
-                <Image src={token?.icon} />
-                <SFProTextMedium>{token?.symbol}</SFProTextMedium>
-                <ArrowDown style={{ transform: `rotateX(${visible ? '180deg' : '0'} )` }} />
-              </TokenButton>
+              {renderToken()}
             </Selector>
             {renderTips && renderTips()}
           </FlexRow>
-          {balance && <Balance>Balance: {balance}</Balance>}
+          {renderBalance()}
         </FlexRow>
         {children}
       </TokenControl>

@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 22:14:27
- * @LastEditTime: 2022-09-04 14:10:38
+ * @LastEditTime: 2022-09-05 19:40:06
  * @LastEditors: linzeguang
  * @Description:
  */
@@ -94,4 +94,20 @@ export const Value = styled(SFProTextMedium)`
 export const TokenImage = styled.img`
   width: 14px;
   height: 14px;
+`
+
+export const NoDataRow = styled(FlexColumn)`
+  margin: 20px 0;
+  align-items: center;
+
+  svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  ${SFProTextRegular} {
+    margin-top: 10px;
+    font-size: 14px;
+    color: ${({ theme }) => theme.colors.grey};
+  }
 `

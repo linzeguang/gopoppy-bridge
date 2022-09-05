@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 15:19:46
- * @LastEditTime: 2022-09-02 13:54:36
+ * @LastEditTime: 2022-09-05 18:56:41
  * @LastEditors: linzeguang
  * @Description: 全局Provider
  */
@@ -28,8 +28,8 @@ const Providers: React.FC<PropsWithChildren> = ({ children }) => {
           <MotionConfig>
             <ToastUpdater />
             <ModalProvider>
-              <Web3Updater />
               <ConnectProvider>
+                <Web3Updater />
                 <AppLayout>{children}</AppLayout>
               </ConnectProvider>
             </ModalProvider>
