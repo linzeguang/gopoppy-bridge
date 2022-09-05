@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 21:59:18
- * @LastEditTime: 2022-09-05 19:41:21
+ * @LastEditTime: 2022-09-05 19:47:44
  * @LastEditors: linzeguang
  * @Description: 交易记录
  */
@@ -38,7 +38,7 @@ const TransactionRecord: React.FC = () => {
           <ListSpinner color={colors.primary} />
         </NoDataRow>
       )
-    else if (txList.length)
+    else if (!txList.length)
       return (
         <NoDataRow>
           <Icon.NoData />
