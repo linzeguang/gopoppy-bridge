@@ -1,11 +1,10 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 13:58:48
- * @LastEditTime: 2022-09-03 22:29:35
+ * @LastEditTime: 2022-09-06 02:01:27
  * @LastEditors: linzeguang
  * @Description: 打包配置
  */
-
 const {
   override,
   addWebpackAlias,
@@ -18,6 +17,55 @@ const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const path = require('path')
+
+const isProd = process.env.NODE_ENV === 'production'
+
+const addCommonsChunkPlugin = (config) => {
+  if (isProd) {
+    config.optimization.splitChunks = {
+      chunks: 'all',
+      name: 'vender',
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          minSize: 50000,
+          minChunks: 1,
+          chunks: 'initial',
+          priority: 1, // 该配置项是设置处理的优先级，数值越大越优先处理，处理后优先级低的如果包含相同模块则不再处理
+        },
+        commons: {
+          test: /[\\/]src[\\/]/,
+          name: 'commons',
+          minSize: 50000,
+          minChunks: 2,
+          chunks: 'initial',
+          priority: -1,
+          reuseExistingChunk: true, // 这个配置允许我们使用已经存在的代码块
+        },
+        web3: {
+          name: 'web3', // 单独将 web3 工具打包
+          priority: 20,
+          test: /[\\/]node_modules[\\/](@ethersproject|@walletconnect|@web3-react|web3-utils)[\\/]/,
+          chunks: 'all',
+        },
+        fa: {
+          name: 'fa', // 单独将 foca 工具打包
+          priority: 20,
+          test: /[\\/]node_modules[\\/](foca|foca-axios|axios)[\\/]/,
+          chunks: 'all',
+        },
+        reactLib: {
+          name: 'react-lib', // 单独将 react 打包
+          priority: 20,
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
+          chunks: 'all',
+        },
+      },
+    }
+    return config
+  }
+}
 
 module.exports = override(
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -37,8 +85,9 @@ module.exports = override(
       __SERVER_URL__: 'http://api.gopoppy.co/api',
     }),
   ),
+  addCommonsChunkPlugin,
   // 注意是production环境启动该plugin
-  process.env.NODE_ENV === 'production' &&
+  isProd &&
     addWebpackPlugin(
       new UglifyJsPlugin({
         // 开启打包缓存

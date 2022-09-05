@@ -9,7 +9,8 @@
     "build:gh-page": "PUBLIC_URL=/gopoppy-bridge react-app-rewired build",
     "lint": "npx eslint src --fix",
     "prettier": "npx prettier src --check --write",
-    "format": "yarn tsc && yarn lint && yarn prettier"
+    "format": "yarn tsc && yarn lint && yarn prettier",
+    "serve": "npx serve -s build"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
