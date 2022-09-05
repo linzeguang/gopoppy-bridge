@@ -1,11 +1,11 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 16:19:58
- * @LastEditTime: 2022-09-05 18:57:57
+ * @LastEditTime: 2022-09-05 19:56:25
  * @LastEditors: linzeguang
  * @Description: web3 updater
  */
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import toast from 'react-hot-toast'
 import { useMount } from 'ahooks'
 import { useLocalStorage } from 'zewide'

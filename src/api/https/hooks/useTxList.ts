@@ -1,14 +1,13 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 22:37:01
- * @LastEditTime: 2022-09-05 19:52:28
+ * @LastEditTime: 2022-09-05 19:55:28
  * @LastEditors: linzeguang
  * @Description: 获取交易列表
  */
 
 import { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
-import { useInterval } from 'ahooks'
 
 import { useWeb3React } from '@web3-react/core'
 

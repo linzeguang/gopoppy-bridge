@@ -1,12 +1,11 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-04 14:00:00
- * @LastEditTime: 2022-09-05 19:20:00
+ * @LastEditTime: 2022-09-05 19:56:21
  * @LastEditors: linzeguang
  * @Description: Transfer Control
  */
 import React, { PropsWithChildren, useCallback, useMemo, useState } from 'react'
-import { useDebounceFn } from 'ahooks'
 import { Box, FlexRow } from 'zewide'
 
 import { BridgeChain, Token } from '@/constants'
