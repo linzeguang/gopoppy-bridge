@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-03 17:00:34
- * @LastEditTime: 2022-09-05 22:50:25
+ * @LastEditTime: 2022-09-06 12:39:53
  * @LastEditors: linzeguang
  * @Description: app 脚部
  */
@@ -42,7 +42,7 @@ const AppFooter: React.FC = () => {
 
   return (
     <Footers>
-      <Link>
+      <Link href='https://t.me/lucky_TTS'>
         <Image src='./images/telegram.svg' />
         <SFProTextMedium>{t('manual_service')}</SFProTextMedium>
       </Link>

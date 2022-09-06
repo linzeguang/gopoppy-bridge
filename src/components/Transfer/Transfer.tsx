@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-02 03:10:03
- * @LastEditTime: 2022-09-06 00:11:15
+ * @LastEditTime: 2022-09-06 12:41:30
  * @LastEditors: linzeguang
  * @Description: 交易组件
  */
@@ -22,7 +22,7 @@ import { Card } from '../Common'
 
 import LimitError from './LimitError'
 import LimitTips from './LimitTips'
-import ReciveAddress from './ReciveAddress'
+// import ReciveAddress from './ReciveAddress'
 import { CenterWrapper, Convert, Fee, Input, Submit } from './styled'
 import TransferControl from './TransferControl'
 
@@ -40,7 +40,7 @@ const Transfer: React.FC = () => {
   const [fromToken, setFromToken] = useState<Token>(fromTokens[0])
   const [toToken, setToToken] = useState<Token>()
   const [amount, setAmount] = useState('')
-  const [address, setAddress] = useState('')
+  // const [address, setAddress] = useState('')
 
   const [fromChain, toChain] = bridgePair
 
@@ -107,10 +107,11 @@ const Transfer: React.FC = () => {
 
     if (!account || !amount || !toToken) return
 
-    transfer(toWei(amount), address || account, toChain.chainId, fromToken, toToken)
+    // address || accoun => account
+    transfer(toWei(amount), account, toChain.chainId, fromToken, toToken)
   }, [
     account,
-    address,
+    // address,
     amount,
     fromToken,
     isActive,
@@ -156,7 +157,7 @@ const Transfer: React.FC = () => {
         onChangeToken={(token) => setToToken(token)}
       >
         <Input placeholder='0' readOnly value={toAmount} />
-        <ReciveAddress value={address} onChange={(ev) => setAddress(ev.target.value)} />
+        {/* <ReciveAddress value={address} onChange={(ev) => setAddress(ev.target.value)} /> */}
       </TransferControl>
       <Submit
         disabled={!isActive ? isActive : !amount || !toToken || overLimit || transferLoading}
