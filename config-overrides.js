@@ -1,7 +1,7 @@
 /*
  * @Author: linzeguang
  * @Date: 2022-09-01 13:58:48
- * @LastEditTime: 2022-09-06 12:51:31
+ * @LastEditTime: 2022-09-06 14:48:01
  * @LastEditors: linzeguang
  * @Description: 打包配置
  */
@@ -71,19 +71,20 @@ module.exports = override(
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useBabelRc(),
   removeModuleScopePlugin(),
-  // alias
   addWebpackAlias({
     // 加载模块的时候，可以使用“@”符号来进行简写啦~
     '@': path.resolve(__dirname, './src/'),
   }),
+  addWebpackPlugin(
+    // 打包进度条
+    new ProgressBarPlugin(),
+  ),
   addWebpackPlugin(
     // 用于foca更新
     new webpack.DefinePlugin({
       __BUILD_TIME__: Date.now(),
       __SERVER_URL__: 'http://api.gopoppy.co/api',
     }),
-    // 打包进度条
-    new ProgressBarPlugin(),
   ),
   addCommonsChunkPlugin,
   // 注意是production环境启动该plugin
