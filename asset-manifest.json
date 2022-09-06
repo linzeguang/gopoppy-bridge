@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/gopoppy-bridge/static/js/main.bda0f9ef.js",
+    "main.js": "/gopoppy-bridge/static/js/main.2ab9a1fa.js",
     "static/js/787.17686e00.chunk.js": "/gopoppy-bridge/static/js/787.17686e00.chunk.js",
     "web3.js": "/gopoppy-bridge/static/js/web3.2f4e94e2.js",
     "fa.js": "/gopoppy-bridge/static/js/fa.340ed837.js",
@@ -26,6 +26,6 @@
     "static/js/fa.340ed837.js",
     "static/js/react-lib.379fd63f.js",
     "static/js/vendors.babf6154.js",
-    "static/js/main.bda0f9ef.js"
+    "static/js/main.2ab9a1fa.js"
   ]
 }
